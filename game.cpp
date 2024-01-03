@@ -72,7 +72,7 @@ void game::ChangeGameMode( int C)
 		*gameMode = MODE_PLAY;
 	}
 	
-	// git hub test
+	// git hub test 2
 }
 
 int game::GetGameMode()
