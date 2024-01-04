@@ -20,7 +20,7 @@ void Ball::draw(color C, window* pWind) {
 }
 
 
-void Ball::MoveBall(collidable* Paddle, brick*** Brick, window* pWind)
+void Ball::MoveBall(brick*** Brick)
 {
 	/// if ball went lower than the paddle
 	//if (Center.y >= 490) {
@@ -32,12 +32,14 @@ void Ball::MoveBall(collidable* Paddle, brick*** Brick, window* pWind)
 
 
 	if ((Center.x <= rad) || (Center.x >= config.windWidth - rad) ||
-		(isCollided(Paddle, this).isCollided && ((isCollided(Paddle, this).side == RIGHT) || (isCollided(Paddle, this).side == LEFT)))) {
+		(isCollided(pGame->getPaddle(), this).isCollided && ((isCollided(pGame->getPaddle(), this).side == RIGHT) ||
+			(isCollided(pGame->getPaddle(), this).side == LEFT)))) {
 		Xinc = -Xinc;
 	}
 	else if ((Center.y <= rad + config.toolBarHeight + 4) || (Center.y >= config.windHeight - rad - config.statusBarHeight - 4) ||
-		(isCollided(Paddle, this).isCollided && ((isCollided(Paddle, this).side == UPPER) || (isCollided(Paddle, this).side == LOWER)))) {
-		if (isCollided(Paddle, this).isCollided) {
+		(isCollided(pGame->getPaddle(), this).isCollided && ((isCollided(pGame->getPaddle(), this).side == UPPER) ||
+			(isCollided(pGame->getPaddle(), this).side == LOWER)))) {
+		if (isCollided(pGame->getPaddle(), this).isCollided) {
 			if (Xinc < 0)
 				Xinc = -rad;
 			else
@@ -46,8 +48,8 @@ void Ball::MoveBall(collidable* Paddle, brick*** Brick, window* pWind)
 				Yinc = -rad;
 			else
 				Yinc = rad;
-			Yinc = -Yinc * abs(sin(DeflectedAngle(Paddle, this) * (3.14 / 180)));
-			Xinc = Xinc * abs(cos(DeflectedAngle(Paddle, this) * (3.14 / 180)));
+			Yinc = -Yinc * abs(sin(DeflectedAngle(pGame->getPaddle(), this) * (3.14 / 180)));
+			Xinc = Xinc * abs(cos(DeflectedAngle(pGame->getPaddle(), this) * (3.14 / 180)));
 		}
 		else {
 			Yinc = -Yinc;
@@ -60,7 +62,8 @@ void Ball::MoveBall(collidable* Paddle, brick*** Brick, window* pWind)
 			if (Brick[i][j] && isCollided(Brick[i][j], this).isCollided &&
 				(isCollided(Brick[i][j], this).side == LOWER || isCollided(Brick[i][j], this).side == UPPER)) {
 				Yinc = -Yinc;
-					pGame->getGrid()->deletBrick(i, j);
+	
+				pGame->getGrid()->deletBrick(i, j);
 				break;
 			}
 			if (Brick[i][j] && isCollided(Brick[i][j], this).isCollided &&
@@ -97,6 +100,7 @@ ColliedInfo Ball::BallCollision(collidable*)
 
 void Ball::collisionAction()
 {
+
 }
 
 point Ball::GetCenter()

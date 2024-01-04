@@ -57,7 +57,7 @@ public:
 
 	window* getWind() const;		//returns a pointer to the graphics window
 
-
+	paddle* getPaddle() const;
 	grid* getGrid() const;
 };
 

@@ -168,6 +168,11 @@ string game::getSrting() const
 	}
 }
 
+paddle* game::getPaddle() const
+{
+	return Paddle;
+}
+
 grid* game::getGrid() const
 {
 	// TODO: Add your implementation code here.
@@ -242,10 +247,10 @@ void game::go() const
 				ballGame->draw(LAVENDER, pWind);
 
 				getGrid();
-				if (Space_isPressed) {
-					ballGame->MoveBall(Paddle, bricksGrid->GetBrick(), pWind);
-					ballGame->draw(RED, pWind);
-				}
+
+				ballGame->MoveBall( bricksGrid->GetBrick());
+				ballGame->draw(RED, pWind);
+
 
 
 				Pause(10);
@@ -288,7 +293,7 @@ void game::go() const
 		{
 
 
-			getMouseClick(x,y);
+			getMouseClick(x, y);
 			if (y >= 0 && y < config.toolBarHeight && x > config.iconWidth * 5)
 			{
 				isExit = gameToolbar->handleClick(x, y);
