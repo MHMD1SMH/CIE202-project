@@ -23,12 +23,13 @@ private:
 	};
 	Score* score;
 	Live* lives;
-	MODE *gameMode;
-	Ball *ballGame;
+	MODE* gameMode;
+	Ball* ballGame;
 	paddle* Paddle;
 	window* pWind;	//Pointer to the CMU graphics window
 	toolbar* gameToolbar;
 	grid* bricksGrid;
+	Time* timer;
 
 public:
 	game();
@@ -55,7 +56,6 @@ public:
 	void go() const;
 
 	window* getWind() const;		//returns a pointer to the graphics window
-
 
 
 	grid* getGrid() const;

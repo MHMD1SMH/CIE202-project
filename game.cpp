@@ -6,11 +6,11 @@
 game::game()
 {
 	//Initialize playgrond parameters
-	gameMode =new MODE (MODE_DSIGN);
+	gameMode = new MODE(MODE_DSIGN);
 	lives = new Live;
 	score = new Score;
-	
-	
+	timer = new Time(false);
+
 
 	//1 - Create the main window
 	pWind = CreateWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -20,29 +20,29 @@ game::game()
 	toolbarUpperleft.x = 0;
 	toolbarUpperleft.y = 0;
 
-	gameToolbar = new toolbar(toolbarUpperleft,0,config.toolBarHeight, this);
+	gameToolbar = new toolbar(toolbarUpperleft, 0, config.toolBarHeight, this);
 	gameToolbar->draw();
 
 	//3 - create and draw the grid
-	point gridUpperleft; 
+	point gridUpperleft;
 	gridUpperleft.x = 0;
 	gridUpperleft.y = config.toolBarHeight;
 	bricksGrid = new grid(gridUpperleft, config.windWidth, config.gridHeight, this);
-	bricksGrid->draw(); 
-	
+	bricksGrid->draw();
+
 	//4- Create the Paddle
 	//TODO: Add 
 	Paddle = new paddle(config.paddleWidth, config.paddleHeigth, this);
-		
+
 	//5- Create the ball
 	//TODO: Add code to create and draw the ball
-	
+
 	point ballUprLeft;
 	ballUprLeft.x = 600;
 	ballUprLeft.y = 450;
 	int rad = 15;
 	ballGame = new Ball(ballUprLeft, rad, rad, this);
-	
+
 	//6- Create and clear the status bar
 	clearStatusBar();
 }
@@ -54,16 +54,17 @@ game::~game()
 	delete pWind;
 	delete gameToolbar;
 	delete bricksGrid;
+	delete timer;
 }
 
-void game::ChangeGameMode( int C)
+void game::ChangeGameMode(int C)
 {
-	if (C == 0 )
+	if (C == 0)
 	{
 		*gameMode = MODE_DSIGN;
 	}
-	else if (C == 1 ) {
-		 
+	else if (C == 1) {
+
 		*gameMode = MODE_STOP;
 
 	}
@@ -71,7 +72,7 @@ void game::ChangeGameMode( int C)
 	{
 		*gameMode = MODE_PLAY;
 	}
-	
+
 
 	// git hub test 3
 
@@ -87,7 +88,7 @@ int game::GetGameMode()
 		return 1;
 }
 
-void game::SetScore( int n)
+void game::SetScore(int n)
 {
 	score->setScore(n);
 }
@@ -181,46 +182,58 @@ void game::go() const
 {
 	//This function reads the position where the user clicks to determine the desired operation
 
-	bool Space_isPressed  = false;
+	bool Space_isPressed = false;
 	int x, y;
 	bool isExit = false;
 	char Key;
 	keytype ktype;
 	bool bDragging = false;
-	
+
 
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - Brick Breaker (CIE202-project) - - - - - - - - - -");
-	
+
 	do
 	{
-		
-		printMessage("Ready...");
-		
-		getMouseClick(x, y);	//Get the coordinates of the user click
-		
+		if (*gameMode == MODE_PLAY || *gameMode == MODE_STOP)
+		{
+			string messege = " Lives :" + to_string(lives->getLive()) +
+				" | Score :" + to_string(score->getScore()) +
+				" | Time : " + timer->getinmin() + ":" + timer->getinsec();
+			printMessage(messege);
+		}
+		else
+		{
+			printMessage("Ready...");
+
+			getMouseClick(x, y);	//Get the coordinates of the user click
+
+		}
+
+
 		if (*gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
 			//[1] If user clicks on the Toolbar
 			if (y >= 0 && y < config.toolBarHeight)
 			{
-				isExit=gameToolbar->handleClick(x, y);
+				isExit = gameToolbar->handleClick(x, y);
 
 			}
 		}
-		
-		 if (*gameMode == MODE_PLAY)
+
+		if (*gameMode == MODE_PLAY)
 		{
+			timer->setInit(true);
+			timer->setContinue();
 			printMessage("You can play now  ==> Press space bar to start <==");
 			pWind->FlushKeyQueue();
 			ktype = pWind->WaitKeyPress(Key);
-			if (Key == 32){
+			if (Key == 32) {
 				Space_isPressed = true;
 			}
-				Time *time = new Time;
 			while (Space_isPressed)
 			{
-				
+
 				pWind->SetPen(LAVENDER);
 				pWind->SetBrush(LAVENDER);
 				pWind->DrawRectangle(0, config.paddleStartHeight, config.windWidth, config.windHeight - config.statusBarHeight);
@@ -234,11 +247,11 @@ void game::go() const
 					ballGame->draw(RED, pWind);
 				}
 
-				
+
 				Pause(10);
-		    	pWind->FlushKeyQueue();
-				
-				ktype=pWind->GetKeyPress(Key);
+				pWind->FlushKeyQueue();
+
+				ktype = pWind->GetKeyPress(Key);
 				if (Key == 100) {
 					Paddle->movePaddle(true);
 
@@ -250,40 +263,39 @@ void game::go() const
 				}
 				string messege = " Lives :" + to_string(lives->getLive()) +
 					" | Score :" + to_string(score->getScore()) +
-					" | Time : " + to_string(time->getinmin()) + ":" + to_string(time->getinsec());
+					" | Time : " + timer->getinmin() + ":" + timer->getinsec();
 				printMessage(messege);
-				
+
 				pWind->UpdateBuffer();
-				
+
 				pWind->GetMouseClick(x, y);
-				if (x > (config.iconWidth * 4) && y >= 0 && y < config.toolBarHeight && x < config.iconWidth*8)
+				if (x > (config.iconWidth * 4) && y >= 0 && y < config.toolBarHeight && x < config.iconWidth * 8)
 				{
 
-				
+
 					isExit = gameToolbar->handleClick(x, y);
 
-				
+
 					Space_isPressed = false;
 
 				}
 			}
-			
-					
+			timer->setInit(false);
+
 			//pWind->SetBuffering(false);
 		}
-		 if (*gameMode == MODE_STOP)
+		if (*gameMode == MODE_STOP)
 		{
-			
-			string messege = " Lives :" + to_string(lives->getLive()) + " | Score :" + to_string(score->getScore()) + " | Time : ";
-			printMessage(messege);
-			//getMouseClick(x, y);
-			if (y >= 0 && y < config.toolBarHeight && x > config.iconWidth*5)
+
+
+			getMouseClick(x,y);
+			if (y >= 0 && y < config.toolBarHeight && x > config.iconWidth * 5)
 			{
 				isExit = gameToolbar->handleClick(x, y);
-				
+
 			}
 		}
-		
+
 	} while (!isExit);
-	
+
 }

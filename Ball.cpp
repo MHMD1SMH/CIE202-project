@@ -1,5 +1,5 @@
 #include "Ball.h"
-
+#include "game.h"
 Ball::Ball(point ballUprLeft, int rad, int Hrad, game* r_pGame)
 	:collidable(ballUprLeft, rad, Hrad, r_pGame)
 {
@@ -20,7 +20,7 @@ void Ball::draw(color C, window* pWind) {
 }
 
 
-void Ball::MoveBall(collidable* Paddle, brick***  Brick, window* pWind)
+void Ball::MoveBall(collidable* Paddle, brick*** Brick, window* pWind)
 {
 	/// if ball went lower than the paddle
 	//if (Center.y >= 490) {
@@ -60,47 +60,15 @@ void Ball::MoveBall(collidable* Paddle, brick***  Brick, window* pWind)
 			if (Brick[i][j] && isCollided(Brick[i][j], this).isCollided &&
 				(isCollided(Brick[i][j], this).side == LOWER || isCollided(Brick[i][j], this).side == UPPER)) {
 				Yinc = -Yinc;
-				if (Brick[i][j]->BrickTybe() != 0)
-				{
-
-					Brick[i][j]->collisionAction();
-
-					if (Brick[i][j]->strength == 0) {
-						delete Brick[i][j];
-
-						Brick[i][j] = nullptr;
-
-						pWind->SetPen(LAVENDER);
-						pWind->SetBrush(LAVENDER);
-						pWind->DrawRectangle(j * config.brickWidth,
-							i * config.brickHeight + config.toolBarHeight,
-							j * config.brickWidth + config.brickWidth,
-							i * config.brickHeight + config.brickHeight + config.toolBarHeight);
-					}
-				}
-						break;
+					pGame->getGrid()->deletBrick(i, j);
+				break;
 			}
 			if (Brick[i][j] && isCollided(Brick[i][j], this).isCollided &&
 				(isCollided(Brick[i][j], this).side == LEFT || isCollided(Brick[i][j], this).side == RIGHT)) {
 				Xinc = -Xinc;
-				if (Brick[i][j]->BrickTybe() != 0)
-				{
-
-					Brick[i][j]->collisionAction();
-					if (Brick[i][j]->strength == 0)
-					{
-
-						delete Brick[i][j];
-						Brick[i][j] = nullptr;
-						pWind->SetPen(LAVENDER);
-						pWind->SetBrush(LAVENDER);
-						pWind->DrawRectangle(j * config.brickWidth,
-							i * config.brickHeight + config.toolBarHeight,
-							j * config.brickWidth + config.brickWidth,
-							i * config.brickHeight + config.brickHeight + config.toolBarHeight);
-					}
-				}
-						break;
+				pGame->getGrid()->deletBrick(i, j);
+				
+				break;
 			}
 
 
@@ -170,4 +138,3 @@ int Ball::GetCenterX()
 {
 	return this->Center.x;
 }
-

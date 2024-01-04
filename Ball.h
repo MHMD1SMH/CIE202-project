@@ -13,15 +13,15 @@ class Ball :public collidable
 {
 protected:
 	point Center;
-	int rad, Xinc,Yinc;
+	int rad, Xinc, Yinc;
 
 
 public:
 	Ball(point ballUprLeft, int rad, int r_height, game* r_pGame);
-	void draw(color C , window*) ;
-	void MoveBall(collidable*, brick*** , window* pWind);
+	void draw(color C, window*);
+	void MoveBall(collidable*, brick***, window* pWind);
 	ColliedInfo BallCollision(collidable*);
-	void collisionAction() ;
+	void collisionAction();
 	point GetCenter();
 	void SetCenter(point);
 	int getRadius();
@@ -30,6 +30,6 @@ public:
 	void SetXinc(int);
 	void SetYinc(int);
 	int GetCenterX();
-	
+
 
 };

@@ -98,3 +98,19 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	
 	return 1;
 }
+
+int grid::deletBrick(int i, int j)
+{
+	if (brickMatrix[i][j]->BrickTybe() != 0)
+	{
+		brickMatrix[i][j]->collisionAction();
+
+		if (brickMatrix[i][j]->strength == 0) {
+
+			delete brickMatrix[i][j];
+			brickMatrix[i][j] = nullptr;
+
+		}
+	};
+	return 0;
+}

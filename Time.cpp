@@ -1,32 +1,66 @@
 #include "Time.h"
 
-Time::Time()
+#include <string>
+
+Time::Time(bool initialize)
 {
+	this->initialize = initialize;
 	start = time(NULL);
 	dif = 0;
 	min = 0;
 }
 
-int Time::getinsec()
+string Time::getinsec()
+{
+
+	if (initialize && c == 0)
+	{
+		start = time(NULL);
+
+		c += 1;
+	}
+	if (initialize)
+	{
+
+		now = time(NULL);
+		dif = now - start;
+
+		if (dif == 60)
+		{
+
+			min += 1;
+			start = now;
+		}
+	}
+	if (dif < 10)
+	{
+		return "0" + to_string(dif);
+	}
+	return to_string(dif);
+}
+
+string Time::getinmin()
+{
+
+	if (min < 10)
+	{
+		return "0" + to_string(min);
+	}
+	return to_string(min);
+
+}
+
+void Time::setInit(bool ini)
+{
+	initialize = ini;
+}
+
+
+
+void Time::setContinue()
 {
 	now = time(NULL);
-
-	/*if (dif = 3 )
-	{
-		min += 1;
-		dif = 0;
-	}*/
-	dif = now - start;
-	if (dif == 60)
-	{
-		
-		min += dif / 60;
-		start = now;
-	}
-	return dif;
+	start = now - dif;
 }
 
-int Time::getinmin()
-{
-	return min;
-}
+
