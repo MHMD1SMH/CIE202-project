@@ -10,7 +10,7 @@ game::game()
 	lives = new Live;
 	score = new Score;
 	timer = new Time(false);
-
+	collectAbles = new collectables();
 
 	//1 - Create the main window
 	pWind = CreateWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -185,6 +185,11 @@ brick*** game::getMatrix() const
 	return bricksGrid->GetBrick();
 }
 
+void game::addCollectable(point upr_lft)
+{
+	collectAbles->addCollectable(upr_lft, this);
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -257,7 +262,7 @@ void game::go() const
 				ballGame->draw(RED, pWind);
 				pWind->UpdateBuffer();
 
-
+				collectAbles->moveCollectables(Paddle, pWind);
 
 				Pause(10);
 				pWind->FlushKeyQueue();

@@ -1,5 +1,6 @@
 #include "Bricks.h"
 #include "Game.h"
+#include "collectable.h"
 
 ////////////////////////////////////////////////////  class brick  ///////////////////////////////////////
 brick::brick(point r_uprleft, int r_width, int r_height, game* r_pGame):
@@ -89,5 +90,37 @@ BrickType rockBrick::BrickTybe()
 	return BRK_RCK;
 }
 
+////////////////////////////////////////////////////  class PowerUpBrick  /////////////////////////////////
 
 
+PowerUpBrick::PowerUpBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	brick(r_uprleft, r_width, r_height, r_pGame)
+{
+}
+
+void PowerUpBrick::collisionAction()
+{
+	pGame->addCollectable(this->uprLft);
+}
+
+BrickType PowerUpBrick::BrickTybe()
+{
+	return BRK_UP;
+}
+
+////////////////////////////////////////////////////  class PowerDownBrick  /////////////////////////////////
+
+
+PowerDownBrick::PowerDownBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	brick(r_uprleft, r_width, r_height, r_pGame)
+{
+}
+
+void PowerDownBrick::collisionAction()
+{
+}
+
+BrickType PowerDownBrick::BrickTybe()
+{
+	return BRK_DOWN;
+}

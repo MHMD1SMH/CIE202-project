@@ -126,6 +126,7 @@
     <ClCompile Include="paddle.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="collectable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMUgraphicsLib\auxil.h">
@@ -208,6 +209,7 @@
     <ClInclude Include="paddle.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="collectable.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base Classes">
