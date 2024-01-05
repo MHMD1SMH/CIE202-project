@@ -3,7 +3,7 @@
 #include "grid.h"
 #include "gameConfig.h"
 #include <iostream>
-
+//#include <fstream>
 ////////////////////////////////////////////////////  class toolbarIcon   ////////////////////////////////////////////////////
 toolbarIcon::toolbarIcon(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	drawable(r_uprleft, r_width, r_height, r_pGame)
@@ -101,12 +101,24 @@ void iconExit::onClick()
 ////////////////////////////////////////////////////  class iconSave   //////////////////////////////////////////////
 iconSave::iconSave(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
-{}
+{
+	outFile.open("gameDesign.txt");
+	
+}
 
 void iconSave::onClick()
 {
 	//TO DO: add code for cleanup and game exit here
-
+	for (int i = 0; i < pGame->getGrid()->getRows(); i++)
+	{
+		for (int j = 0; j < pGame->getGrid()->getColumns(); j++)
+		{
+			if (pGame->getMatrix()[i][j])
+			{
+				outFile << i << " " << j << " " << pGame->getMatrix()[i][j]->BrickTybe() << endl;
+			}
+		}
+	}
 
 }
 

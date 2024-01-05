@@ -19,6 +19,8 @@ public:
 	void draw() const;
 	int addBrick(BrickType brkType, point clickedPoint);
 	int deletBrick(int i,int j);
+	int getRows();
+	int getColumns();
 
 };
 

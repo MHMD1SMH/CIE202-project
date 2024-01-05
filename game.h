@@ -59,5 +59,6 @@ public:
 
 	paddle* getPaddle() const;
 	grid* getGrid() const;
+	brick*** getMatrix() const;
 };
 

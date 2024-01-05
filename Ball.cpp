@@ -20,7 +20,7 @@ void Ball::draw(color C, window* pWind) {
 }
 
 
-void Ball::MoveBall(brick*** Brick)
+void Ball::MoveBall()
 {
 	/// if ball went lower than the paddle
 	//if (Center.y >= 490) {
@@ -30,7 +30,28 @@ void Ball::MoveBall(brick*** Brick)
 
 	//}
 
+	collisionAction();
+	
 
+
+
+	Center.x -= Xinc / 2;
+	Center.y -= Yinc / 2;
+	uprLft.x = Center.x;
+	uprLft.y = Center.y;
+
+
+}
+
+ColliedInfo Ball::BallCollision(collidable*)
+{
+	return ColliedInfo();
+}
+
+
+
+void Ball::collisionAction()
+{
 	if ((Center.x <= rad) || (Center.x >= config.windWidth - rad) ||
 		(isCollided(pGame->getPaddle(), this).isCollided && ((isCollided(pGame->getPaddle(), this).side == RIGHT) ||
 			(isCollided(pGame->getPaddle(), this).side == LEFT)))) {
@@ -59,47 +80,25 @@ void Ball::MoveBall(brick*** Brick)
 
 		for (int j = 0; j < (config.windWidth / config.brickWidth); j++)
 		{
-			if (Brick[i][j] && isCollided(Brick[i][j], this).isCollided &&
-				(isCollided(Brick[i][j], this).side == LOWER || isCollided(Brick[i][j], this).side == UPPER)) {
+			if (pGame->getMatrix()[i][j] && isCollided(pGame->getMatrix()[i][j], this).isCollided &&
+				(isCollided(pGame->getMatrix()[i][j], this).side == LOWER ||
+					isCollided(pGame->getMatrix()[i][j], this).side == UPPER)) {
 				Yinc = -Yinc;
-	
+
 				pGame->getGrid()->deletBrick(i, j);
 				break;
 			}
-			if (Brick[i][j] && isCollided(Brick[i][j], this).isCollided &&
-				(isCollided(Brick[i][j], this).side == LEFT || isCollided(Brick[i][j], this).side == RIGHT)) {
+			if (pGame->getMatrix()[i][j] && isCollided(pGame->getMatrix()[i][j], this).isCollided &&
+				(isCollided(pGame->getMatrix()[i][j], this).side == LEFT ||
+					isCollided(pGame->getMatrix()[i][j], this).side == RIGHT)) {
 				Xinc = -Xinc;
 				pGame->getGrid()->deletBrick(i, j);
-				
+
 				break;
 			}
-
-
-
-
 		}
 
 	}
-
-
-
-	Center.x -= Xinc / 2;
-	Center.y -= Yinc / 2;
-	uprLft.x = Center.x;
-	uprLft.y = Center.y;
-
-
-}
-
-ColliedInfo Ball::BallCollision(collidable*)
-{
-	return ColliedInfo();
-}
-
-
-
-void Ball::collisionAction()
-{
 
 }
 

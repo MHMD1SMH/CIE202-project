@@ -114,3 +114,13 @@ int grid::deletBrick(int i, int j)
 	};
 	return 0;
 }
+
+int grid::getRows()
+{
+	return rows;
+}
+
+int grid::getColumns()
+{
+	return cols;
+}

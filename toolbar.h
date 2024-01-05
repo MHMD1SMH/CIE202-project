@@ -1,5 +1,5 @@
 #pragma once
-
+#include <fstream>
 //This file contains all classes related to toolbar (toolbar icon classes & toolbar class itself)
 #include "drawable.h"
 
@@ -44,9 +44,11 @@ public:
 ////////////////////////////////////////////////////  class iconSave   //////////////////////////////////////////////
 class iconSave :public toolbarIcon
 {
+private:
+	ofstream outFile; // write in a file
 public:
 	iconSave(point r_uprleft, int r_width, int r_height, game* r_pGame);
-	 void onClick();
+	void onClick();
 };
 ////////////////////////////////////////////////////  class iconPlay   //////////////////////////////////////////////
 class iconPlay :public toolbarIcon

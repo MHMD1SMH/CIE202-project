@@ -19,7 +19,7 @@ protected:
 public:
 	Ball(point ballUprLeft, int rad, int r_height, game* r_pGame);
 	void draw(color C, window*);
-	void MoveBall( brick***);
+	void MoveBall();
 	ColliedInfo BallCollision(collidable*);
 	void collisionAction();
 	point GetCenter();

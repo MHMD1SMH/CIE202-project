@@ -25,6 +25,7 @@ bool paddle::windowCollision()
 
 void paddle::collisionAction()
 {
+
 }
 
 void paddle::movePaddle(bool isRight)

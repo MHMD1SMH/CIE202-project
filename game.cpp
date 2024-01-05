@@ -180,6 +180,11 @@ grid* game::getGrid() const
 	return bricksGrid;
 }
 
+brick*** game::getMatrix() const
+{
+	return bricksGrid->GetBrick();
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -248,8 +253,9 @@ void game::go() const
 
 				getGrid();
 
-				ballGame->MoveBall( bricksGrid->GetBrick());
+				ballGame->MoveBall();
 				ballGame->draw(RED, pWind);
+				pWind->UpdateBuffer();
 
 
 
@@ -262,16 +268,16 @@ void game::go() const
 
 					Paddle->draw();
 				}
-				if (Key == 97) {
+				else if (Key == 97) {
 					Paddle->movePaddle(false);
 					Paddle->draw();
 				}
+				pWind->UpdateBuffer();
 				string messege = " Lives :" + to_string(lives->getLive()) +
 					" | Score :" + to_string(score->getScore()) +
 					" | Time : " + timer->getinmin() + ":" + timer->getinsec();
 				printMessage(messege);
 
-				pWind->UpdateBuffer();
 
 				pWind->GetMouseClick(x, y);
 				if (x > (config.iconWidth * 4) && y >= 0 && y < config.toolBarHeight && x < config.iconWidth * 8)
