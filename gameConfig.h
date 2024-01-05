@@ -21,7 +21,7 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 	int penWidth=3;			//width of the pen that draws shapes
 
 	int paddleAreaHeight = remainingHeight - gridHeight;	//The area dedicated for paddle
-	int paddleStartHeight = toolBarHeight + gridHeight + paddleAreaHeight * (3 / 5);
+	int paddleStartHeight = 480;
 	int paddleWidth = 150;
 	int paddleHeigth = 20;
 

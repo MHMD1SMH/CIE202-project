@@ -9,10 +9,10 @@ paddle::paddle(int r_width, int r_height, game* r_pGame):collidable(paddlePlace,
 	uprLft.y = paddlePlace.y;
 	uprLft.x = paddlePlace.x;
 }
-void paddle::draw() const {
+void paddle::draw(color C) const {
 	window* pwind = pGame->getWind();
-	pwind->SetPen(BLACK);
-	pwind->SetBrush(BLACK);
+	pwind->SetPen(C);
+	pwind->SetBrush(C);
 	pwind->DrawRectangle(paddlePlace.x, paddlePlace.y, paddlePlace.x + config.paddleWidth, paddlePlace.y + config.paddleHeigth);
 }
 
@@ -42,5 +42,10 @@ void paddle::movePaddle(bool isRight)
 			
 		}
 	}
-	this->draw();
+}
+
+void paddle::Reset()
+{
+	paddlePlace.x = 600 - (150 / 2);
+	uprLft.x = 600 - (150 / 2);
 }

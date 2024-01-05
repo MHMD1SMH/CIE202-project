@@ -234,44 +234,46 @@ void game::go() const
 		if (*gameMode == MODE_PLAY)
 		{
 			timer->setInit(true);
-			timer->setContinue();
 			printMessage("You can play now  ==> Press space bar to start <==");
 			pWind->FlushKeyQueue();
 			ktype = pWind->WaitKeyPress(Key);
 			if (Key == 32) {
 				Space_isPressed = true;
 			}
+			timer->setContinue();
 			while (Space_isPressed)
 			{
 
-				pWind->SetPen(LAVENDER);
-				pWind->SetBrush(LAVENDER);
-				pWind->DrawRectangle(0, config.paddleStartHeight, config.windWidth, config.windHeight - config.statusBarHeight);
+				
+				//pWind->DrawRectangle(Paddle->paddlePlace.x, Paddle->paddlePlace.y,
+					//Paddle->paddlePlace.x + config.paddleWidth, Paddle->paddlePlace.y + config.paddleHeigth);
 				pWind->FlushKeyQueue();
-				Paddle->draw();
+				
 				ballGame->draw(LAVENDER, pWind);
 
 				getGrid();
 
 				ballGame->MoveBall();
 				ballGame->draw(RED, pWind);
+				
 				pWind->UpdateBuffer();
 
 
 
 				Pause(10);
 				pWind->FlushKeyQueue();
-
+				Paddle->draw(LAVENDER);
 				ktype = pWind->GetKeyPress(Key);
 				if (Key == 100) {
 					Paddle->movePaddle(true);
 
-					Paddle->draw();
+					
 				}
 				else if (Key == 97) {
 					Paddle->movePaddle(false);
-					Paddle->draw();
+					
 				}
+				Paddle->draw(BLACK);
 				pWind->UpdateBuffer();
 				string messege = " Lives :" + to_string(lives->getLive()) +
 					" | Score :" + to_string(score->getScore()) +
@@ -289,6 +291,18 @@ void game::go() const
 
 					Space_isPressed = false;
 
+				}
+				if (ballGame->GetCenter().y > 480 + config.paddleHeigth)
+				{
+					ballGame->Reset();
+					Paddle->Reset();
+					lives->setLive();
+					pWind->SetPen(LAVENDER);
+					pWind->SetBrush(LAVENDER);
+					pWind->DrawRectangle(0, config.paddleStartHeight,
+					config.windWidth, config.windHeight- config.statusBarHeight);
+					Paddle->draw(BLACK);
+					Space_isPressed = false;
 				}
 			}
 			timer->setInit(false);

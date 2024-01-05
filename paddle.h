@@ -5,12 +5,13 @@
 class paddle:public collidable
 {
 private:
-	point paddlePlace;
 	int step;
 public:
+	point paddlePlace;
 	paddle(int, int, game* );
-	void draw() const;
+	void draw( color C) const;
 	bool windowCollision();
 	void collisionAction();
 	void movePaddle(bool);
+	void Reset();
 };

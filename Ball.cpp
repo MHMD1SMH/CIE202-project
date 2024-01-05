@@ -141,3 +141,11 @@ int Ball::GetCenterX()
 {
 	return this->Center.x;
 }
+
+void Ball::Reset()
+{
+	Center.x = 600;
+	Center.y = 450;
+	Xinc = 0;
+	Yinc = -rad;
+}

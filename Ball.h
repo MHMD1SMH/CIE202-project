@@ -30,6 +30,7 @@ public:
 	void SetXinc(int);
 	void SetYinc(int);
 	int GetCenterX();
+	void Reset();
 
 
 };
