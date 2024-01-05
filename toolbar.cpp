@@ -116,11 +116,13 @@ void iconSave::onClick()
 		{
 			if (pGame->getMatrix()[i][j])
 			{
-				outFile << i << " " << j << " " << pGame->getMatrix()[i][j]->BrickTybe() << endl;
+				outFile << i << " " << j << " " << pGame->getMatrix()[i][j]->BrickTybe() << "\n";
 			}
 		}
 	}
-
+	outFile << 1 << " " << 0 << " " << 0;
+	
+	outFile.close();
 }
 
 ////////////////////////////////////////////////////  class iconLoad   //////////////////////////////////////////////
@@ -129,7 +131,7 @@ iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 {
 	c = 0;
 
-	bricktybe = 0;
+
 }
 
 void iconLoad::onClick()
@@ -138,8 +140,53 @@ void iconLoad::onClick()
 	inFile.open("gameDesign.txt");
 	//pGame->printMessage("Loading");
 	//TO DO: add code for cleanup and game exit here
-	
+	int bricktybe = 0;
+	point xy;
+	xy.x = 0;
+	xy.y = 0;
+	while (inFile)
+	{
 
+		if (c == 0)
+		{
+
+			(inFile) >> xy.y;
+
+			c += 1;
+		}
+		else if (c == 1) {
+
+			inFile >> xy.x;
+
+			c += 1;
+		}
+		else if (c == 2)
+		{
+			inFile >> bricktybe;
+			c += 1;
+		}
+		if (c == 3)
+		{
+			xy.y = config.toolBarHeight + xy.y * config.brickHeight;
+			xy.x = xy.x * config.brickWidth;
+			if (bricktybe == 0)
+			{
+				pGame->getGrid()->addBrick(BRK_NRM, xy);
+			}
+			else if (bricktybe == 1)
+			{
+				pGame->getGrid()->addBrick(BRK_HRD, xy);
+			}
+			else if (bricktybe == 3)
+			{
+				pGame->getGrid()->addBrick(BRK_RCK, xy);
+
+			}
+			c = 0;
+		}
+
+	}
+	inFile.close();
 }
 
 

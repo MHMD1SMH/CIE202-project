@@ -31,7 +31,7 @@ void Ball::MoveBall()
 	//}
 
 	collisionAction();
-	
+
 
 
 

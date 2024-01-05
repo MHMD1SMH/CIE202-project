@@ -57,7 +57,7 @@ private:
 	ifstream inFile;// write from a file
 	int c;
 	//point xy;
-	int bricktybe ;
+	
 public:
 	iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void onClick();
