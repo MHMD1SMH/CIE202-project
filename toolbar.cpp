@@ -103,7 +103,7 @@ iconSave::iconSave(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
 {
 	outFile.open("gameDesign.txt");
-	
+
 }
 
 void iconSave::onClick()
@@ -121,6 +121,22 @@ void iconSave::onClick()
 	}
 
 }
+
+////////////////////////////////////////////////////  class iconLoad   //////////////////////////////////////////////
+iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{
+	
+
+}
+
+void iconLoad::onClick()
+{
+	//TO DO: add code for cleanup and game exit here
+	
+
+}
+
 
 ////////////////////////////////////////////////////  class iconPlay   //////////////////////////////////////////////
 iconPlay::iconPlay(point r_uprleft, int r_width, int r_height, game* r_pGame) :
@@ -189,6 +205,7 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG) :
 	iconsImages[ICON_ADD_HARD] = "images\\ToolbarIcons\\HardBrickIcon.jpg";
 	iconsImages[ICON_ADD_ROCK] = "images\\ToolbarIcons\\RockBrickIcon.jpg";
 	iconsImages[ICON_SAVE] = "images\\ToolbarIcons\\SaveIcon.jpg";
+	iconsImages[ICON_LOAD] = "images\\ToolbarIcons\\LoadIcon.jpg";
 	iconsImages[ICON_PLAY] = "images\\ToolbarIcons\\PlayIcon.jpg";
 	iconsImages[ICON_PAUSE] = "images\\ToolbarIcons\\BauseIcon.jpg";
 	iconsImages[ICON_CONTINUE] = "images\\ToolbarIcons\\ContinueIcon.jpg";
@@ -210,6 +227,8 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG) :
 	iconsList[ICON_ADD_ROCK] = new iconAddRockBrick(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_SAVE] = new iconSave(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_LOAD] = new iconLoad(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_PLAY] = new iconPlay(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
@@ -268,4 +287,3 @@ bool toolbar::handleClick(int x, int y)
 
 
 }
-
