@@ -3,6 +3,7 @@
 #include "grid.h"
 #include "gameConfig.h"
 #include <iostream>
+#include "Bricks.h"
 //#include <fstream>
 ////////////////////////////////////////////////////  class toolbarIcon   ////////////////////////////////////////////////////
 toolbarIcon::toolbarIcon(point r_uprleft, int r_width, int r_height, game* r_pGame) :
@@ -102,13 +103,13 @@ void iconExit::onClick()
 iconSave::iconSave(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
 {
-	outFile.open("gameDesign.txt");
 
 }
 
 void iconSave::onClick()
 {
 	//TO DO: add code for cleanup and game exit here
+	outFile.open("gameDesign.txt");
 	for (int i = 0; i < pGame->getGrid()->getRows(); i++)
 	{
 		for (int j = 0; j < pGame->getGrid()->getColumns(); j++)
@@ -126,12 +127,16 @@ void iconSave::onClick()
 iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
 {
-	
+	c = 0;
 
+	bricktybe = 0;
 }
 
 void iconLoad::onClick()
 {
+
+	inFile.open("gameDesign.txt");
+	//pGame->printMessage("Loading");
 	//TO DO: add code for cleanup and game exit here
 	
 

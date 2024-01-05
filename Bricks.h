@@ -23,7 +23,7 @@ public:
 public:
 	brick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction() override;
-	virtual int BrickTybe() ;
+	virtual BrickType BrickTybe() = 0 ;
 	
 };
 
@@ -34,7 +34,7 @@ class normalBrick :public brick
 public:
 	normalBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	 void collisionAction() override;
-	int BrickTybe();
+	 BrickType BrickTybe();
 };
 
 ////////////////////////////////////////////////////  class hardBrick  /////////////////////////////////
@@ -43,7 +43,7 @@ class hardBrick :public brick
 public:
 	hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction() override;
-	int BrickTybe();
+	BrickType BrickTybe();
 };
 ////////////////////////////////////////////////////  class rockBrick  /////////////////////////////////
 class rockBrick :public brick
@@ -51,7 +51,7 @@ class rockBrick :public brick
 public:
 	rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction()override;
-	int BrickTybe();
+	BrickType BrickTybe();
 };
 
 

@@ -13,9 +13,9 @@ void brick::collisionAction()
 {
 }
 
-int brick::BrickTybe()
+BrickType brick::BrickTybe()
 {
-	return 0;
+	return BRK_NRM;
 }
 
 ////////////////////////////////////////////////////  class normalBrick  /////////////////////////////////
@@ -40,9 +40,9 @@ void normalBrick::collisionAction()
 		pWind->DrawRectangle(uprLft.x,uprLft.y,uprLft.x+config.brickWidth,uprLft.y+config.brickHeight);
 	}
 }
-int normalBrick::BrickTybe()
+BrickType normalBrick::BrickTybe()
 {
-	return 1;
+	return BRK_NRM;
 }
 ////////////////////////////////////////////////////  class hardBrick  /////////////////////////////////
 hardBrick::hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame):
@@ -65,9 +65,9 @@ void hardBrick::collisionAction()
 	
 }
 
-int hardBrick::BrickTybe()
+BrickType hardBrick::BrickTybe()
 {
-	return 3;
+	return BRK_HRD;
 }
 
 ////////////////////////////////////////////////////  class rockBrick  /////////////////////////////////
@@ -84,9 +84,9 @@ void rockBrick::collisionAction()
 
 }
 
-int rockBrick::BrickTybe()
+BrickType rockBrick::BrickTybe()
 {
-	return 0;
+	return BRK_RCK;
 }
 
 
