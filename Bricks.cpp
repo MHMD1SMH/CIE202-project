@@ -125,6 +125,8 @@ BrickType PowerUpBrick::BrickTybe()
 PowerDownBrick::PowerDownBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
 {
+	imageName = "images\\bricks\\PowerDownBrick.jpg";
+	strength = 1;
 }
 
 void PowerDownBrick::collisionAction()

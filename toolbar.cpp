@@ -62,6 +62,30 @@ void iconAddPowUpBrick::onClick()
 	}
 	pGame->printMessage("");
 
+}////////////////////////////////////////////////////  class iconAddPowDwnBrick   //////////////////////////////////////////////
+iconAddPowDwnBrick::iconAddPowDwnBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconAddPowDwnBrick::onClick()
+{
+
+	pGame->printMessage("Click on empty cells to add Power Down Bricks  ==> Right-Click to stop <==");
+	int x, y;
+	clicktype t = pGame->getMouseClick(x, y);
+	while (t == LEFT_CLICK)
+	{
+		point clicked;
+		clicked.x = x;
+		clicked.y = y;
+		grid* pGrid = pGame->getGrid();
+		pGrid->addBrick(BRK_DOWN, clicked);
+		config.totalScore += 1;
+		pGrid->draw();
+		t = pGame->getMouseClick(x, y);
+	}
+	pGame->printMessage("");
+
 }
 
 ////////////////////////////////////////////////////  class iconAddHardBrick   //////////////////////////////////////////////
@@ -114,6 +138,30 @@ void iconAddRockBrick::onClick()
 	pGame->printMessage("");
 
 }
+////////////////////////////////////////////////////  class iconErase   //////////////////////////////////////////////
+iconErase::iconErase(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconErase::onClick()
+{
+
+	pGame->printMessage("Click on full cells to Delete Bricks  ==> Right-Click to stop <==");
+	int x, y;
+	clicktype t = pGame->getMouseClick(x, y);
+	while (t == LEFT_CLICK)
+	{
+		point clicked;
+		clicked.x = x;
+		clicked.y = y;
+		grid* pGrid = pGame->getGrid();
+		pGrid->Delete(clicked);
+		pGrid->draw();
+		t = pGame->getMouseClick(x, y);
+	}
+	pGame->printMessage("");
+
+}
 
 
 ////////////////////////////////////////////////////  class iconExit   //////////////////////////////////////////////
@@ -148,7 +196,7 @@ void iconSave::onClick()
 		}
 	}
 	outFile << 1 << " " << 0 << " " << 0;
-	
+
 	outFile.close();
 }
 
@@ -284,6 +332,8 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG) :
 	iconsImages[ICON_ADD_HARD] = "images\\ToolbarIcons\\HardBrickIcon.jpg";
 	iconsImages[ICON_ADD_ROCK] = "images\\ToolbarIcons\\RockBrickIcon.jpg";
 	iconsImages[ICON_ADD_POWUP] = "images\\ToolbarIcons\\PowerUpBrickIcon.jpg";
+	iconsImages[ICON_ADD_POWDWN] = "images\\ToolbarIcons\\PowerDownBrickIcon.jpg";
+	iconsImages[ICON_ERASE] = "images\\ToolbarIcons\\EraseIcon.jpg";
 	iconsImages[ICON_SAVE] = "images\\ToolbarIcons\\SaveIcon.jpg";
 	iconsImages[ICON_LOAD] = "images\\ToolbarIcons\\LoadIcon.jpg";
 	iconsImages[ICON_PLAY] = "images\\ToolbarIcons\\PlayIcon.jpg";
@@ -307,6 +357,10 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG) :
 	iconsList[ICON_ADD_ROCK] = new iconAddRockBrick(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_ADD_POWUP] = new iconAddPowUpBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_ADD_POWDWN] = new iconAddPowDwnBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_ERASE] = new iconErase(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_SAVE] = new iconSave(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
@@ -369,3 +423,5 @@ bool toolbar::handleClick(int x, int y)
 
 
 }
+
+

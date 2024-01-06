@@ -49,12 +49,14 @@ game::game()
 
 game::~game()
 {
+	delete gameMode;
 	delete ballGame;
 	delete Paddle;
 	delete pWind;
 	delete gameToolbar;
 	delete bricksGrid;
 	delete timer;
+	delete collectAbles;
 }
 
 void game::ChangeGameMode(int C) const
@@ -210,10 +212,18 @@ grid* game::getGrid() const
 	return bricksGrid;
 }
 
+Ball* game::getBall() const
+{
+	return ballGame;
+}
+
 brick*** game::getMatrix() const
 {
 	return bricksGrid->GetBrick();
 }
+
+
+
 
 void game::addUpCollectable(point upr_lft)
 {
@@ -231,7 +241,7 @@ void game::go() const
 {
 	//This function reads the position where the user clicks to determine the desired operation
 
-	bool Space_isPressed = false;
+	
 	int x, y;
 	bool isExit = false;
 	char Key;
@@ -262,7 +272,7 @@ void game::go() const
 
 		}
 
-
+			
 		if (*gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
 
@@ -277,6 +287,7 @@ void game::go() const
 
 		if (*gameMode == MODE_PLAY)
 		{
+			bool Space_isPressed = false;
 			timer->setInit(true);
 			printMessage("You can play now  ==> Press space bar to start <==");
 			pWind->FlushKeyQueue();
@@ -297,7 +308,6 @@ void game::go() const
 				getGrid();
 				if (score->getScore() == config.totalScore)
 				{
-					//ChangeGameMode(3);
 					*gameMode = MODE_END;
 					pWind->SetPen(LAVENDER);
 					pWind->SetBrush(LAVENDER);
@@ -342,7 +352,7 @@ void game::go() const
 
 
 					isExit = gameToolbar->handleClick(x, y);
-
+					
 
 					Space_isPressed = false;
 

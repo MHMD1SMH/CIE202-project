@@ -26,6 +26,13 @@ public:
 	iconAddPowUpBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void onClick();
 };
+////////////////////////////////////////////////////  class iconAddPowDwnBrick   //////////////////////////////////////////////
+class iconAddPowDwnBrick :public toolbarIcon
+{
+public:
+	iconAddPowDwnBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	void onClick();
+};
 ////////////////////////////////////////////////////  class iconAddHardBrick   //////////////////////////////////////////////
 class iconAddHardBrick :public toolbarIcon
 {
@@ -38,6 +45,13 @@ class iconAddRockBrick :public toolbarIcon
 {
 public:
 	iconAddRockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	void onClick();
+};
+////////////////////////////////////////////////////  class iconErase   //////////////////////////////////////////////
+class iconErase :public toolbarIcon
+{
+public:
+	iconErase(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void onClick();
 };
 
@@ -64,7 +78,7 @@ private:
 	ifstream inFile;// write from a file
 	int c;
 	//point xy;
-	
+
 public:
 	iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void onClick();
@@ -115,7 +129,9 @@ class toolbar :public drawable
 		ICON_ADD_NORM,		//add normal brick
 		ICON_ADD_HARD,		//add hard brick
 		ICON_ADD_ROCK,		//add Rock brick
-		ICON_ADD_POWUP,		//add Rock brick
+		ICON_ADD_POWUP,		//add Power up brick
+		ICON_ADD_POWDWN,	//add Power down brick
+		ICON_ERASE,
 		ICON_SAVE,		//Save icon
 		ICON_LOAD,		//Load icon
 		ICON_PLAY,		//Play icon

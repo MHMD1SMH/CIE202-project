@@ -64,15 +64,23 @@ void grid::draw() const
 
 int grid::addBrick(BrickType brkType, point clickedPoint)
 {
-	//TODO:
-	// 1- Check that the clickedPoint is within grid range (and return -1)
-	// 2- Check that the clickedPoint doesnot overlap with an exisiting brick (return 0)
-
-	//Here we assume that the above checks are passed
-	
 	//From the clicked point, find out the index (row,col) of the corrsponding cell in the grid
 	int gridCellRowIndex = (clickedPoint.y-uprLft.y) / config.brickHeight;
 	int gridCellColIndex = clickedPoint.x / config.brickWidth;
+	//TODO:
+	// 1- Check that the clickedPoint is within grid range (and return -1)
+	// 2- Check that the clickedPoint doesnot overlap with an exisiting brick (return 0)
+	if (clickedPoint.y > config.gridHeight + config.toolBarHeight ||
+		clickedPoint.y < config.toolBarHeight)
+	{
+		return -1;
+	}
+	if (brickMatrix[gridCellRowIndex][gridCellColIndex])
+	{
+		return 0;
+	}
+	//Here we assume that the above checks are passed
+	
 
 	//Now, align the upper left corner of the new brick with the corner of the clicked grid cell
 	point newBrickUpleft;
@@ -97,6 +105,9 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	case BRK_UP:	//The new brick to add is Power Up Brick
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new PowerUpBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
+	case BRK_DOWN:	//The new brick to add is Power Up Brick
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new PowerDownBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
 
 	}
 	
@@ -119,6 +130,45 @@ int grid::deletBrick(int i, int j)
 	return 0;
 }
 
+int grid::Delete(point clickedPoint)
+{
+	window* pWind = pGame->getWind();
+	//From the clicked point, find out the index (row,col) of the corrsponding cell in the grid
+	int gridCellRowIndex = (clickedPoint.y - uprLft.y) / config.brickHeight;
+	int gridCellColIndex = clickedPoint.x / config.brickWidth;
+	//Now, align the upper left corner of the new brick with the corner of the clicked grid cell
+	point BrickUpleft;
+	BrickUpleft.x = uprLft.x + gridCellColIndex * config.brickWidth;
+	BrickUpleft.y = uprLft.y + gridCellRowIndex * config.brickHeight;
+	// Check that the clickedPoint is within grid range (and return -1)
+	// Check that the clickedPoint doesnot overlap with an exisiting brick (return 0)
+	if (clickedPoint.y > config.gridHeight + config.toolBarHeight ||
+		clickedPoint.y < config.toolBarHeight)
+	{
+		return -1;
+	}
+	if (!brickMatrix[gridCellRowIndex][gridCellColIndex])
+	{
+		return 0;
+	}
+	// here we delete
+	if (brickMatrix[gridCellRowIndex][gridCellColIndex])
+	{
+		
+	delete brickMatrix[gridCellRowIndex][gridCellColIndex];
+	brickMatrix[gridCellRowIndex][gridCellColIndex] = nullptr;
+	pWind->SetPen(LAVENDER);
+	pWind->SetBrush(LAVENDER);
+	pWind->DrawRectangle(BrickUpleft.x,
+		BrickUpleft.y,
+		BrickUpleft.x + config.brickWidth,
+		BrickUpleft.y + config.brickHeight);
+	}
+	return 1;
+	
+}
+
+
 int grid::getRows()
 {
 	return rows;
@@ -128,3 +178,4 @@ int grid::getColumns()
 {
 	return cols;
 }
+

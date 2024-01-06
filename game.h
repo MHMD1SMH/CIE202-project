@@ -33,7 +33,7 @@ private:
 	grid* bricksGrid;
 	Time* timer;
 	collectables* collectAbles;
-
+	bool Space_isPressed;
 public:
 	game();
 	~game();
@@ -68,7 +68,7 @@ public:
 
 	paddle* getPaddle() const;
 	grid* getGrid() const;
+	Ball* getBall() const;
 	brick*** getMatrix() const;
-
 };
 

@@ -21,6 +21,7 @@ public:
 	int deletBrick(int i,int j);
 	int getRows();
 	int getColumns();
+	int Delete(point clickedPoint);
 
 };
 

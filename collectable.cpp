@@ -53,8 +53,8 @@ collectables::collectables()
 
 void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 {
-	//powerUpTypes test = powerUpTypes(rand() % LastUp);
-	int test = 2;
+	powerUpTypes test = powerUpTypes(rand() % LastUp);
+	
 	switch (test)
 	{
 	case FireBall:
@@ -164,6 +164,9 @@ magnet::magnet(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 
 void magnet::collisionAction()
 {
+	pGame->getBall()->Reset();
+	pGame->getPaddle()->Reset();
+
 }
 
 multipleBalls::multipleBalls(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
@@ -173,6 +176,7 @@ multipleBalls::multipleBalls(point r_uprleft, game* r_pGame) :collectable(r_uprl
 
 void multipleBalls::collisionAction()
 {
+
 }
 
 narrowPaddle::narrowPaddle(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
