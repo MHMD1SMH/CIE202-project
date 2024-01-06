@@ -41,7 +41,13 @@ public:
 	int GetGameMode() ;
 	void SetScore(int n);
 	int GetScore() const;
-
+	void addUpCollectable(point);
+	void addDownCollectable(point);
+	void increasePaddleSpeed();
+	void increasePaddleWidth();
+	void decreasePaddleSpeed();
+	void decreasePaddleWidth();
+	void reversePaddleDirection();
 
 
 	clicktype getMouseClick(int& x, int& y) const;//Get coordinate where user clicks and returns click type (left/right)
@@ -64,6 +70,5 @@ public:
 	grid* getGrid() const;
 	brick*** getMatrix() const;
 
-	void addCollectable(point);
 };
 

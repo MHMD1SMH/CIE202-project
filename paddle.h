@@ -13,5 +13,11 @@ public:
 	bool windowCollision();
 	void collisionAction();
 	void movePaddle(bool);
+	void increasePaddleSpeed();
+	void increasePaddleWidth();
+	void decreasePaddleSpeed();
+	void decreasePaddleWidth();
+	void reversePaddleDirection();
+
 	void Reset();
 };

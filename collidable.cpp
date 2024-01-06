@@ -50,6 +50,6 @@ ColliedInfo collidable::isCollided(const  collidable* object1, const collidable*
 int collidable::DeflectedAngle(collidable* object1, collidable* ball)
 {
 	deflectedDistance = abs(((object1->uprLft.x) + ((object1->width) / 2.0)) - (ball->uprLft.x));
-	deflectedangle = 90 - (3.0 / 5.0) * deflectedDistance;
+	deflectedangle = 90 - (45.0 /( object1->width / 2)) * deflectedDistance;
 	return deflectedangle;
 }

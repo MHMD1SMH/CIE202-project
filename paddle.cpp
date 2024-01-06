@@ -8,6 +8,7 @@ paddle::paddle(int r_width, int r_height, game* r_pGame):collidable(paddlePlace,
 	step=40;
 	uprLft.y = paddlePlace.y;
 	uprLft.x = paddlePlace.x;
+	this->height = config.paddleHeigth;
 }
 void paddle::draw(color C) const {
 	window* pwind = pGame->getWind();
@@ -42,6 +43,33 @@ void paddle::movePaddle(bool isRight)
 			
 		}
 	}
+}
+
+void paddle::increasePaddleSpeed()
+{
+
+	step *= 2;
+}
+
+void paddle::increasePaddleWidth()
+{
+	config.paddleWidth += 100;
+	this->width = config.paddleWidth;
+}
+
+void paddle::decreasePaddleSpeed()
+{
+	step /= 1.5;
+}
+
+void paddle::decreasePaddleWidth()
+{
+	width -= 10;
+}
+
+void paddle::reversePaddleDirection()
+{
+	step *= -1;
 }
 
 void paddle::Reset()

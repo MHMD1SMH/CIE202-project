@@ -111,7 +111,7 @@ void PowerUpBrick::collisionAction()
 		pWind->SetBrush(LAVENDER);
 		pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 	}
-	pGame->addCollectable(this->uprLft);
+	pGame->addUpCollectable(this->uprLft);
 }
 
 BrickType PowerUpBrick::BrickTybe()
@@ -129,6 +129,8 @@ PowerDownBrick::PowerDownBrick(point r_uprleft, int r_width, int r_height, game*
 
 void PowerDownBrick::collisionAction()
 {
+
+	pGame->addDownCollectable(this->uprLft);
 }
 
 BrickType PowerDownBrick::BrickTybe()

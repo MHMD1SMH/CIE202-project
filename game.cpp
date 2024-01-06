@@ -102,6 +102,32 @@ int game::GetScore() const
 	return score->getScore();
 }
 
+void game::increasePaddleSpeed()
+{
+	Paddle->increasePaddleSpeed();
+}
+
+void game::increasePaddleWidth()
+{
+	
+	Paddle->increasePaddleWidth();
+}
+
+void game::decreasePaddleSpeed()
+{
+	Paddle->decreasePaddleSpeed();
+}
+
+void game::decreasePaddleWidth()
+{
+	Paddle->decreasePaddleWidth();
+}
+
+void game::reversePaddleDirection()
+{
+	Paddle->reversePaddleDirection();
+}
+
 
 clicktype game::getMouseClick(int& x, int& y) const
 {
@@ -189,11 +215,15 @@ brick*** game::getMatrix() const
 	return bricksGrid->GetBrick();
 }
 
-void game::addCollectable(point upr_lft)
+void game::addUpCollectable(point upr_lft)
 {
-	collectAbles->addCollectable(upr_lft, this);
+	collectAbles->addUpCollectable(upr_lft, this);
 }
 
+void game::addDownCollectable(point upr_lft)
+{
+	collectAbles->addDownCollectable(upr_lft, this);
+}
 
 
 ////////////////////////////////////////////////////////////////////////
