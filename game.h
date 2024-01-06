@@ -23,6 +23,7 @@ private:
 		MODE_END,	//End Game mode
 
 	};
+	color ballColor = RED;
 	Score* score;
 	Live* lives;
 	MODE* gameMode;
@@ -33,12 +34,12 @@ private:
 	grid* bricksGrid;
 	Time* timer;
 	collectables* collectAbles;
-	bool Space_isPressed;
+
 public:
 	game();
 	~game();
 	void ChangeGameMode(int C) const;
-	int GetGameMode() ;
+	int GetGameMode();
 	void SetScore(int n);
 	int GetScore() const;
 	void addUpCollectable(point);
@@ -68,7 +69,9 @@ public:
 
 	paddle* getPaddle() const;
 	grid* getGrid() const;
+	void setBallColor(color C);
 	Ball* getBall() const;
-	brick*** getMatrix() const;
-};
+	brick*** getMatrix()const;
 
+
+};

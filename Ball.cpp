@@ -6,15 +6,16 @@ Ball::Ball(point ballUprLeft, int rad, int Hrad, game* r_pGame)
 	this->Center = ballUprLeft;
 	this->rad = rad;
 	Xinc = 0, Yinc = rad;
-	// pWind = pGame->getWind();
+
 
 }
-void Ball::draw(color C, window* pWind) {
+void Ball::draw(color C) {
 	//  bool bDragging = false;
-
-	color c = C;
-	pWind->SetPen(c);
-	pWind->SetBrush(c);
+	window* pWind;
+	pWind = pGame->getWind();
+	Color = C;
+	pWind->SetPen(Color);
+	pWind->SetBrush(Color);
 	pWind->DrawCircle(Center.x, Center.y, rad);
 
 }
@@ -149,3 +150,4 @@ void Ball::Reset()
 	Xinc = 0;
 	Yinc = -rad;
 }
+

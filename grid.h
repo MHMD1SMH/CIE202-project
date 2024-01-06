@@ -22,6 +22,6 @@ public:
 	int getRows();
 	int getColumns();
 	int Delete(point clickedPoint);
-
+	void drawline();
 };
 

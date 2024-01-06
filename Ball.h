@@ -14,11 +14,12 @@ class Ball :public collidable
 protected:
 	point Center;
 	int rad, Xinc, Yinc;
-
+	int destructPower = 1;
+	color Color;
 
 public:
 	Ball(point ballUprLeft, int rad, int r_height, game* r_pGame);
-	void draw(color C, window*);
+	void draw(color C);
 	void MoveBall();
 	ColliedInfo BallCollision(collidable*);
 	void collisionAction();
@@ -31,6 +32,6 @@ public:
 	void SetYinc(int);
 	int GetCenterX();
 	void Reset();
-
+	
 
 };

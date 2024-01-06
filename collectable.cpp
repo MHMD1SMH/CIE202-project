@@ -133,7 +133,7 @@ fireBall::fireBall(point r_uprleft, game* r_pGame):collectable(r_uprleft, r_pGam
 
 void fireBall::collisionAction()
 {
-	
+	pGame->setBallColor(ORANGE);
 }
 
 windGlide::windGlide(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)

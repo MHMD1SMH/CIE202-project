@@ -5,6 +5,7 @@
 
 game::game()
 {
+
 	//Initialize playgrond parameters
 	gameMode = new MODE(MODE_DSIGN);
 	lives = new Live;
@@ -42,21 +43,20 @@ game::game()
 	ballUprLeft.y = 450;
 	int rad = 15;
 	ballGame = new Ball(ballUprLeft, rad, rad, this);
-
 	//6- Create and clear the status bar
 	clearStatusBar();
+
 }
 
 game::~game()
 {
-	delete gameMode;
 	delete ballGame;
 	delete Paddle;
 	delete pWind;
 	delete gameToolbar;
 	delete bricksGrid;
 	delete timer;
-	delete collectAbles;
+
 }
 
 void game::ChangeGameMode(int C) const
@@ -111,7 +111,7 @@ void game::increasePaddleSpeed()
 
 void game::increasePaddleWidth()
 {
-	
+
 	Paddle->increasePaddleWidth();
 }
 
@@ -208,8 +208,13 @@ paddle* game::getPaddle() const
 grid* game::getGrid() const
 {
 	// TODO: Add your implementation code here.
-	bricksGrid->draw();
+	//bricksGrid->draw();
 	return bricksGrid;
+}
+
+void game::setBallColor(color C)
+{
+	ballColor = C;
 }
 
 Ball* game::getBall() const
@@ -221,7 +226,6 @@ brick*** game::getMatrix() const
 {
 	return bricksGrid->GetBrick();
 }
-
 
 
 
@@ -241,7 +245,7 @@ void game::go() const
 {
 	//This function reads the position where the user clicks to determine the desired operation
 
-	
+	//pWind->SetBuffering(true);
 	int x, y;
 	bool isExit = false;
 	char Key;
@@ -254,6 +258,7 @@ void game::go() const
 
 	do
 	{
+
 
 		if ((*gameMode == MODE_PLAY || *gameMode == MODE_STOP)) /*&&
 			lives->getLive() > 0 &&
@@ -272,7 +277,7 @@ void game::go() const
 
 		}
 
-			
+
 		if (*gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
 
@@ -287,6 +292,7 @@ void game::go() const
 
 		if (*gameMode == MODE_PLAY)
 		{
+
 			bool Space_isPressed = false;
 			timer->setInit(true);
 			printMessage("You can play now  ==> Press space bar to start <==");
@@ -299,15 +305,17 @@ void game::go() const
 			while (Space_isPressed)
 			{
 
-
 				//pWind->DrawRectangle(Paddle->paddlePlace.x, Paddle->paddlePlace.y,
 					//Paddle->paddlePlace.x + config.paddleWidth, Paddle->paddlePlace.y + config.paddleHeigth);
 				pWind->FlushKeyQueue();
 
-				ballGame->draw(LAVENDER, pWind);
-				getGrid();
+				getGrid()->drawline();
+				ballGame->draw(LAVENDER);
+				pWind->UpdateBuffer();
+
 				if (score->getScore() == config.totalScore)
 				{
+					//ChangeGameMode(3);
 					*gameMode = MODE_END;
 					pWind->SetPen(LAVENDER);
 					pWind->SetBrush(LAVENDER);
@@ -319,13 +327,13 @@ void game::go() const
 				}
 
 				ballGame->MoveBall();
-				ballGame->draw(RED, pWind);
+				ballGame->draw(ballColor);
 
-				pWind->UpdateBuffer();
+
 
 				collectAbles->moveCollectables(Paddle, pWind);
+				Pause(5);
 
-				Pause(10);
 				pWind->FlushKeyQueue();
 				Paddle->draw(LAVENDER);
 				ktype = pWind->GetKeyPress(Key);
@@ -339,7 +347,7 @@ void game::go() const
 
 				}
 				Paddle->draw(BLACK);
-				pWind->UpdateBuffer();
+
 				string messege = " Lives :" + to_string(lives->getLive()) +
 					" | Score :" + to_string(score->getScore()) +
 					" | Time : " + timer->getinmin() + ":" + timer->getinsec();
@@ -352,7 +360,7 @@ void game::go() const
 
 
 					isExit = gameToolbar->handleClick(x, y);
-					
+
 
 					Space_isPressed = false;
 
@@ -382,6 +390,7 @@ void game::go() const
 
 					Space_isPressed = false;
 				}
+
 
 			}
 			timer->setInit(false);
@@ -430,18 +439,18 @@ void game::go() const
 			timer->Reset();
 			score->Reset();
 			lives->Reset();
-			
+
 			getMouseClick(x, y);
 			pWind->SetPen(LAVENDER);
 			pWind->SetBrush(LAVENDER);
 			pWind->DrawRectangle(0, config.toolBarHeight + config.gridHeight,
 				config.windWidth, config.windHeight - config.statusBarHeight);
-			ballGame->draw(LAVENDER, pWind);
+			ballGame->draw(LAVENDER);
 			getGrid();
 			ballGame->Reset();
 			*gameMode = MODE_DSIGN;
 		}
 
-	} while (!isExit);
-
+		pWind->SetBuffering(false);
+	} while(!isExit);
 }
