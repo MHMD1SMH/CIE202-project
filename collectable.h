@@ -9,7 +9,7 @@ public:
 	bool checkCollision(collidable* paddle);
 	void collisionAction() override;
 	bool moveCollectable();
-	void draw(window* pwind);
+	void draw(window* pwind, color c);
 };
 class collectables {
 private:

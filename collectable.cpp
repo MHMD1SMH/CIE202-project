@@ -13,7 +13,8 @@ collectable::collectable(point r_uprleft, int r_width, int r_height, game* r_pGa
 
 bool collectable::checkCollision(collidable* paddle)
 {
-	ColliedInfo info = this->isCollided(this, paddle);
+	ColliedInfo info = this->isCollided(paddle , this);
+	cout << this->uprLft.y << endl;
 	return info.isCollided;
 }
 
@@ -24,18 +25,20 @@ void collectable::collisionAction()
 
 bool collectable::moveCollectable()
 {
-	if (this->uprLft.y <= config.paddleStartHeight) {
+	
+	draw(pGame->getWind(),LAVENDER );
+	if (this->uprLft.y <= config.windHeight) {
 		this->uprLft.y += this->height / 2;
 		return true;
 	}
 	return false;
 }
 
-void collectable::draw(window* pWind)
+void collectable::draw(window* pWind, color c)
 {
 	
-	pWind->SetPen(BLUE);
-	pWind->SetBrush(BLUE);
+	pWind->SetPen(c);
+	pWind->SetBrush(c);
 	pWind->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
 }
 
@@ -53,13 +56,15 @@ void collectables::moveCollectables(collidable* paddle,window *pWind)
 	for (int i = 0; i < arrOfCollectables.size(); i++) {
 		if (arrOfCollectables[i].checkCollision(paddle)) {
 			arrOfCollectables[i].collisionAction();
+			arrOfCollectables[i].draw(pWind, LAVENDER);
 			arrOfCollectables.erase(arrOfCollectables.begin()+ i);
 		}
 		else if (!arrOfCollectables[i].moveCollectable()){
+			arrOfCollectables[i].draw(pWind, LAVENDER);
 			arrOfCollectables.erase(arrOfCollectables.begin() + i);
 		}
 		else {
-			arrOfCollectables[i].draw(pWind);
+			arrOfCollectables[i].draw(pWind , BLUE);
 		}
 
 	}
