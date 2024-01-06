@@ -18,7 +18,9 @@ private:
 	{
 		MODE_DSIGN,	//Desing mode (startup mode)
 		MODE_STOP,	//STOP mode 
-		MODE_PLAY	//Playing mode
+
+		MODE_PLAY,	//Playing mode
+		MODE_END,	//End Game mode
 
 	};
 	Score* score;
@@ -35,10 +37,10 @@ private:
 public:
 	game();
 	~game();
-	void ChangeGameMode(int C);
-	int GetGameMode();
+	void ChangeGameMode(int C) const;
+	int GetGameMode() ;
 	void SetScore(int n);
-	int GetScore() const;;
+	int GetScore() const;
 
 
 

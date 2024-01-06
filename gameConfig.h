@@ -21,14 +21,14 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 	int penWidth=3;			//width of the pen that draws shapes
 
 	int paddleAreaHeight = remainingHeight - gridHeight;	//The area dedicated for paddle
-	int paddleStartHeight = toolBarHeight + gridHeight + paddleAreaHeight * (3 / 5);
+	int paddleStartHeight = 480;
 	int paddleWidth = 150;
 	int paddleHeigth = 20;
 
 	int brickWidth = 60;
 	int brickHeight = 30;
 	color gridLinesColor = WHITE;
-
+	int totalScore = 0;
 
 	int	iconWidth=70;			//Width of each icon in toolbar 	
 

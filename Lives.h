@@ -12,5 +12,6 @@ public:
 	Live();
 	void setLive();
 	int getLive();
+	void Reset();
 };
 

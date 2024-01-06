@@ -6,6 +6,7 @@ private:
 public:
 	Score();
 	void setScore(int n);
+	void Reset();
 	int getScore() const;
 };
 
