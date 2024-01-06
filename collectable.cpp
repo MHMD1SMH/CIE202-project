@@ -1,8 +1,8 @@
 #include "collectable.h"
 #include "gameConfig.h"
-
+#include "game.h"
 collectable::collectable(point r_uprleft, game* r_pGame):
-	collidable(r_uprleft, 100, 100, r_pGame)
+	collidable(r_uprleft, 10, 10, r_pGame)
 {
 }
 
@@ -24,15 +24,18 @@ void collectable::collisionAction()
 
 bool collectable::moveCollectable()
 {
-	if(this->uprLft.y<=config.paddleStartHeight)
-	this->uprLft.y-=this->height/2;
+	if (this->uprLft.y <= config.paddleStartHeight) {
+		this->uprLft.y += this->height / 2;
+		return true;
+	}
+	return false;
 }
 
 void collectable::draw(window* pWind)
 {
-	color c = ALICEBLUE;
-	pWind->SetPen(c);
-	pWind->SetBrush(c);
+	
+	pWind->SetPen(BLUE);
+	pWind->SetBrush(BLUE);
 	pWind->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
 }
 
@@ -47,7 +50,7 @@ void collectables::addCollectable(point r_uprleft, game* r_pGame)
 
 void collectables::moveCollectables(collidable* paddle,window *pWind)
 {
-	for (int i = 0; i <= arrOfCollectables.size(); i++) {
+	for (int i = 0; i < arrOfCollectables.size(); i++) {
 		if (arrOfCollectables[i].checkCollision(paddle)) {
 			arrOfCollectables[i].collisionAction();
 			arrOfCollectables.erase(arrOfCollectables.begin()+ i);

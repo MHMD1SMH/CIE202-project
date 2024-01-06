@@ -96,10 +96,21 @@ BrickType rockBrick::BrickTybe()
 PowerUpBrick::PowerUpBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
 {
+	imageName = "images\\bricks\\PowerUpBrick.jpg";
+	strength = 1;
 }
 
 void PowerUpBrick::collisionAction()
 {
+
+	strength--;
+	pGame->SetScore(1);
+	if (!strength)
+	{
+		pWind->SetPen(LAVENDER);
+		pWind->SetBrush(LAVENDER);
+		pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
+	}
 	pGame->addCollectable(this->uprLft);
 }
 

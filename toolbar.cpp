@@ -46,7 +46,7 @@ iconAddPowUpBrick::iconAddPowUpBrick(point r_uprleft, int r_width, int r_height,
 void iconAddPowUpBrick::onClick()
 {
 
-	pGame->printMessage("Click on empty cells to add Powe Up Bricks  ==> Right-Click to stop <==");
+	pGame->printMessage("Click on empty cells to add Power Up Bricks  ==> Right-Click to stop <==");
 	int x, y;
 	clicktype t = pGame->getMouseClick(x, y);
 	while (t == LEFT_CLICK)
@@ -55,8 +55,8 @@ void iconAddPowUpBrick::onClick()
 		clicked.x = x;
 		clicked.y = y;
 		grid* pGrid = pGame->getGrid();
-		pGrid->addBrick(BRK_NRM, clicked);
-		//config.totalScore += 1;
+		pGrid->addBrick(BRK_UP, clicked);
+		config.totalScore += 1;
 		pGrid->draw();
 		t = pGame->getMouseClick(x, y);
 	}

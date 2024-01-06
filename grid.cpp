@@ -91,9 +91,13 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new hardBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
 	
-	case BRK_RCK:	//The new brick to add is Hard Brick
+	case BRK_RCK:	//The new brick to add is Rock Brick
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new rockBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
+	case BRK_UP:	//The new brick to add is Power Up Brick
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new PowerUpBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+
 	}
 	
 	return 1;

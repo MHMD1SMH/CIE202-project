@@ -1,6 +1,6 @@
 #pragma once
 #include "collidable.h"
-#include "game.h"
+
 #include <vector>
 class collectable : public collidable {
 public:
