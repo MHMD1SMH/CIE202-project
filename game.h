@@ -7,7 +7,7 @@
 #include "Score.h"
 #include "Lives.h"
 #include "Time.h"
-
+#include "collectable.h"
 
 
 //Main class that coordinates the game operation
@@ -32,6 +32,7 @@ private:
 	toolbar* gameToolbar;
 	grid* bricksGrid;
 	Time* timer;
+	collectables* collectAbles;
 
 public:
 	game();
@@ -62,5 +63,7 @@ public:
 	paddle* getPaddle() const;
 	grid* getGrid() const;
 	brick*** getMatrix() const;
+
+	void addCollectable(point);
 };
 
