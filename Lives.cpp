@@ -15,4 +15,9 @@ int Live::getLive()
 	return numperOfLives;
 }
 
+void Live::Reset()
+{
+	numperOfLives = 3;
+}
+
 

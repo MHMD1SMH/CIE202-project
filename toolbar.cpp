@@ -31,6 +31,7 @@ void iconAddNormalBrick::onClick()
 		clicked.y = y;
 		grid* pGrid = pGame->getGrid();
 		pGrid->addBrick(BRK_NRM, clicked);
+		config.totalScore += 1;
 		pGrid->draw();
 		t = pGame->getMouseClick(x, y);
 	}
@@ -57,6 +58,7 @@ void iconAddHardBrick::onClick()
 		grid* pGrid = pGame->getGrid();
 		pGrid->addBrick(BRK_HRD, clicked);
 		pGrid->draw();
+		config.totalScore += 3;
 		t = pGame->getMouseClick(x, y);
 	}
 	pGame->printMessage("");

@@ -55,6 +55,13 @@ void Time::setInit(bool ini)
 	initialize = ini;
 }
 
+void Time::Reset()
+{
+
+	dif = 0;
+	min = 0;
+}
+
 
 
 void Time::setContinue()

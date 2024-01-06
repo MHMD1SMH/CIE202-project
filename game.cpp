@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "gameConfig.h"
 #include <iostream>
 
@@ -57,7 +57,7 @@ game::~game()
 	delete timer;
 }
 
-void game::ChangeGameMode(int C)
+void game::ChangeGameMode(int C) const
 {
 	if (C == 0)
 	{
@@ -68,9 +68,13 @@ void game::ChangeGameMode(int C)
 		*gameMode = MODE_STOP;
 
 	}
-	else
+	else if (C == 2)
 	{
 		*gameMode = MODE_PLAY;
+	}
+	else if (C == 3)
+	{
+		*gameMode = MODE_END;
 	}
 
 
@@ -205,7 +209,10 @@ void game::go() const
 
 	do
 	{
-		if (*gameMode == MODE_PLAY || *gameMode == MODE_STOP)
+
+		if ((*gameMode == MODE_PLAY || *gameMode == MODE_STOP)) /*&&
+			lives->getLive() > 0 &&
+			(score->getScore() != config.totalScore))*/
 		{
 			string messege = " Lives :" + to_string(lives->getLive()) +
 				" | Score :" + to_string(score->getScore()) +
@@ -223,12 +230,14 @@ void game::go() const
 
 		if (*gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
+
 			//[1] If user clicks on the Toolbar
 			if (y >= 0 && y < config.toolBarHeight)
 			{
 				isExit = gameToolbar->handleClick(x, y);
 
 			}
+
 		}
 
 		if (*gameMode == MODE_PLAY)
@@ -244,18 +253,29 @@ void game::go() const
 			while (Space_isPressed)
 			{
 
-				
+
 				//pWind->DrawRectangle(Paddle->paddlePlace.x, Paddle->paddlePlace.y,
 					//Paddle->paddlePlace.x + config.paddleWidth, Paddle->paddlePlace.y + config.paddleHeigth);
 				pWind->FlushKeyQueue();
-				
-				ballGame->draw(LAVENDER, pWind);
 
+				ballGame->draw(LAVENDER, pWind);
 				getGrid();
+				if (score->getScore() == config.totalScore)
+				{
+					//ChangeGameMode(3);
+					*gameMode = MODE_END;
+					pWind->SetPen(LAVENDER);
+					pWind->SetBrush(LAVENDER);
+					pWind->DrawRectangle(0, config.paddleStartHeight,
+						config.windWidth, config.windHeight - config.statusBarHeight);
+					Space_isPressed = false;
+					break;
+
+				}
 
 				ballGame->MoveBall();
 				ballGame->draw(RED, pWind);
-				
+
 				pWind->UpdateBuffer();
 
 
@@ -267,11 +287,11 @@ void game::go() const
 				if (Key == 100) {
 					Paddle->movePaddle(true);
 
-					
+
 				}
 				else if (Key == 97) {
 					Paddle->movePaddle(false);
-					
+
 				}
 				Paddle->draw(BLACK);
 				pWind->UpdateBuffer();
@@ -300,10 +320,24 @@ void game::go() const
 					pWind->SetPen(LAVENDER);
 					pWind->SetBrush(LAVENDER);
 					pWind->DrawRectangle(0, config.paddleStartHeight,
-					config.windWidth, config.windHeight- config.statusBarHeight);
-					Paddle->draw(BLACK);
+						config.windWidth, config.windHeight - config.statusBarHeight);
+					if (lives->getLive() > 0)
+					{
+						Paddle->draw(BLACK);
+
+					}
+					else
+					{
+						*gameMode = MODE_END;
+						//ChangeGameMode(3);
+					}
+
+
+
+
 					Space_isPressed = false;
 				}
+
 			}
 			timer->setInit(false);
 
@@ -319,6 +353,48 @@ void game::go() const
 				isExit = gameToolbar->handleClick(x, y);
 
 			}
+		}
+		if (*gameMode == MODE_END)
+		{
+			if (lives->getLive() == 0)
+			{
+				string messege = "Game Over.  | Final Score :" + to_string(score->getScore());
+				pWind->SetPen(RED, 50);
+				pWind->SetFont(35, BOLD, BY_NAME, "Arial");
+				pWind->DrawString(400, config.paddleStartHeight - 100, messege);
+				clearStatusBar();
+
+			}
+			else if (score->getScore() == config.totalScore)
+			{
+				string messege;
+				if (config.totalScore)
+				{
+					messege = "You Won  | Final Score :" + to_string(score->getScore());
+				}
+				else
+				{
+					messege = "Please, Add bricks to start";
+				}
+				pWind->SetPen(LIGHTSEAGREEN, 50);
+				pWind->SetFont(35, BOLD, BY_NAME, "Arial");
+				pWind->DrawString(400, config.paddleStartHeight - 100, messege);
+				clearStatusBar();
+
+			}
+			timer->Reset();
+			score->Reset();
+			lives->Reset();
+			
+			getMouseClick(x, y);
+			pWind->SetPen(LAVENDER);
+			pWind->SetBrush(LAVENDER);
+			pWind->DrawRectangle(0, config.toolBarHeight + config.gridHeight,
+				config.windWidth, config.windHeight - config.statusBarHeight);
+			ballGame->draw(LAVENDER, pWind);
+			getGrid();
+			ballGame->Reset();
+			*gameMode = MODE_DSIGN;
 		}
 
 	} while (!isExit);
