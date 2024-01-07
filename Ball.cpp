@@ -56,22 +56,58 @@ void Ball::collisionAction()
 	if ((Center.x <= rad) || (Center.x >= config.windWidth - rad) ||
 		(isCollided(pGame->getPaddle(), this).isCollided && ((isCollided(pGame->getPaddle(), this).side == RIGHT) ||
 			(isCollided(pGame->getPaddle(), this).side == LEFT)))) {
-		Xinc = -Xinc;
+		if (isCollided(pGame->getPaddle(), this).isCollided) {
+			if (Xinc < 0) {
+				Xinc = -rad;
+				Center.x -= 7.5;
+			}
+			else {
+				Xinc = rad;
+				Center.x += 7.5;
+
+			}
+			if (Yinc < 0) {
+				Yinc = -rad;
+
+			}
+			else
+			{
+				Yinc = rad;
+
+
+			}
+		}
+		else {
+			Xinc = -Xinc;
+		}
 	}
-	else if ((Center.y <= rad + config.toolBarHeight + 4) || (Center.y >= config.windHeight - rad - config.statusBarHeight - 4) ||
+	else if ((Center.y <= rad + config.toolBarHeight + 7) || (Center.y >= config.windHeight - rad - config.statusBarHeight - 4) ||
 		(isCollided(pGame->getPaddle(), this).isCollided && ((isCollided(pGame->getPaddle(), this).side == UPPER) ||
 			(isCollided(pGame->getPaddle(), this).side == LOWER)))) {
 		if (isCollided(pGame->getPaddle(), this).isCollided) {
-			if (Xinc < 0)
+			if (Xinc < 0) {
 				Xinc = -rad;
-			else
+
+			}
+			else {
 				Xinc = rad;
-			if (Yinc < 0)
+
+			}
+
+			if (Yinc < 0) {
 				Yinc = -rad;
+				Center.y -= 7.5;
+			}
 			else
+			{
 				Yinc = rad;
+				Center.y += 7.5;
+
+			}
+
 			Yinc = -Yinc * abs(sin(DeflectedAngle(pGame->getPaddle(), this) * (3.14 / 180)));
 			Xinc = Xinc * abs(cos(DeflectedAngle(pGame->getPaddle(), this) * (3.14 / 180)));
+
 		}
 		else {
 			Yinc = -Yinc;
@@ -85,14 +121,27 @@ void Ball::collisionAction()
 				(isCollided(pGame->getMatrix()[i][j], this).side == LOWER ||
 					isCollided(pGame->getMatrix()[i][j], this).side == UPPER)) {
 				Yinc = -Yinc;
+				if (Yinc > 0) {
+					Center.y -= 7.5;
+				}
+				else
+				{
+					Center.y += 7.5;
+				}
+
 
 				pGame->getGrid()->deletBrick(i, j);
 				break;
 			}
-			if (pGame->getMatrix()[i][j] && isCollided(pGame->getMatrix()[i][j], this).isCollided &&
+			else if (pGame->getMatrix()[i][j] && isCollided(pGame->getMatrix()[i][j], this).isCollided &&
 				(isCollided(pGame->getMatrix()[i][j], this).side == LEFT ||
 					isCollided(pGame->getMatrix()[i][j], this).side == RIGHT)) {
 				Xinc = -Xinc;
+				if (Xinc > 0)
+					Center.x -= 7.5;
+				else
+					Center.x += 7.5;
+
 				pGame->getGrid()->deletBrick(i, j);
 
 				break;
@@ -103,14 +152,18 @@ void Ball::collisionAction()
 
 }
 
+
 point Ball::GetCenter()
 {
 	return Center;
 }
 
-void Ball::SetCenter(point P)
+
+
+
+void Ball::SetCenter(point p)
 {
-	this->Center = P;
+	Center;
 }
 
 int Ball::getRadius()

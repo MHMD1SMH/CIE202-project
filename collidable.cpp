@@ -7,7 +7,7 @@ collidable::collidable(point r_uprleft, int r_width, int r_height, game* r_pGame
 }
 ColliedInfo collidable::isCollided(const  collidable* object1, const collidable* ballCenter)
 {
-	ColliedInfo ans;
+	
 	ans.isCollided = false;
 	
 	if (

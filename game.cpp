@@ -292,7 +292,7 @@ void game::go() const
 
 		if (*gameMode == MODE_PLAY)
 		{
-
+			
 			bool Space_isPressed = false;
 			timer->setInit(true);
 			printMessage("You can play now  ==> Press space bar to start <==");

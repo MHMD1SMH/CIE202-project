@@ -137,6 +137,55 @@ void iconAddRockBrick::onClick()
 	}
 	pGame->printMessage("");
 
+}////////////////////////////////////////////////////  class iconAddConsBrick   //////////////////////////////////////////////
+iconAddConsBrick::iconAddConsBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconAddConsBrick::onClick()
+{
+
+	pGame->printMessage("Click on empty cells to add constructive Bricks  ==> Right-Click to stop <==");
+	int x, y;
+	clicktype t = pGame->getMouseClick(x, y);
+	while (t == LEFT_CLICK)
+	{
+		point clicked;
+		clicked.x = x;
+		clicked.y = y;
+		grid* pGrid = pGame->getGrid();
+		pGrid->addBrick(BRK_CONS, clicked);
+		config.totalScore += 1;
+		pGrid->draw();
+		t = pGame->getMouseClick(x, y);
+	}
+	pGame->printMessage("");
+
+}
+////////////////////////////////////////////////////  class iconAddBombBrick   //////////////////////////////////////////////
+iconAddBombBrick::iconAddBombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconAddBombBrick::onClick()
+{
+
+	pGame->printMessage("Click on empty cells to add Bomb Bricks  ==> Right-Click to stop <==");
+	int x, y;
+	clicktype t = pGame->getMouseClick(x, y);
+	while (t == LEFT_CLICK)
+	{
+		point clicked;
+		clicked.x = x;
+		clicked.y = y;
+		grid* pGrid = pGame->getGrid();
+		pGrid->addBrick(BRK_BOM, clicked);
+		config.totalScore += 1;
+		pGrid->draw();
+		t = pGame->getMouseClick(x, y);
+	}
+	pGame->printMessage("");
+
 }
 ////////////////////////////////////////////////////  class iconErase   //////////////////////////////////////////////
 iconErase::iconErase(point r_uprleft, int r_width, int r_height, game* r_pGame) :
@@ -195,7 +244,7 @@ void iconSave::onClick()
 			}
 		}
 	}
-	outFile << 1 << " " << 0 << " " << 0;
+	//outFile << 1 << " " << 0 << " " << 0;
 
 	outFile.close();
 }
@@ -247,10 +296,12 @@ void iconLoad::onClick()
 			if (bricktybe == 0)
 			{
 				pGame->getGrid()->addBrick(BRK_NRM, xy);
+				config.totalScore+=1;
 			}
 			else if (bricktybe == 1)
 			{
 				pGame->getGrid()->addBrick(BRK_HRD, xy);
+				config.totalScore+=3;
 			}
 			else if (bricktybe == 3)
 			{
@@ -262,6 +313,7 @@ void iconLoad::onClick()
 
 	}
 	inFile.close();
+	pGame->getGrid()->draw();
 }
 
 
@@ -333,6 +385,8 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG) :
 	iconsImages[ICON_ADD_ROCK] = "images\\ToolbarIcons\\RockBrickIcon.jpg";
 	iconsImages[ICON_ADD_POWUP] = "images\\ToolbarIcons\\PowerUpBrickIcon.jpg";
 	iconsImages[ICON_ADD_POWDWN] = "images\\ToolbarIcons\\PowerDownBrickIcon.jpg";
+	iconsImages[ICON_ADD_BOMB] = "images\\ToolbarIcons\\BombBrickIcon.jpg";
+	iconsImages[ICON_ADD_CONS] = "images\\ToolbarIcons\\ConstructBrickIcon.jpg";
 	iconsImages[ICON_ERASE] = "images\\ToolbarIcons\\EraseIcon.jpg";
 	iconsImages[ICON_SAVE] = "images\\ToolbarIcons\\SaveIcon.jpg";
 	iconsImages[ICON_LOAD] = "images\\ToolbarIcons\\LoadIcon.jpg";
@@ -355,6 +409,10 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG) :
 	iconsList[ICON_ADD_HARD] = new iconAddHardBrick(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_ADD_ROCK] = new iconAddRockBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_ADD_BOMB] = new iconAddBombBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_ADD_CONS] = new iconAddConsBrick(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_ADD_POWUP] = new iconAddPowUpBrick(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;

@@ -108,6 +108,12 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	case BRK_DOWN:	//The new brick to add is Power Up Brick
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new PowerDownBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
+	case BRK_BOM:	//The new brick to add is Power Up Brick
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new BombBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_CONS:	//The new brick to add is Power Up Brick
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new constructBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
 
 	}
 	

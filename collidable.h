@@ -13,6 +13,7 @@
 class collidable :public drawable
 {
 protected:
+    ColliedInfo ans;
     double deflectedangle, deflectedDistance;
 public:
     collidable(point r_uprleft, int r_width, int r_height, game* r_pGame);
