@@ -74,6 +74,11 @@ void paddle::reversePaddleDirection()
 	step *= -1;
 }
 
+point paddle::getuprLeft()
+{
+	return this->uprLft;
+}
+
 void paddle::Reset()
 {
 	paddlePlace.x = 600 - (150 / 2);

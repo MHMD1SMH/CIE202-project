@@ -340,6 +340,10 @@ void game::go() const
 				Pause(5);
 				pWind->FlushKeyQueue();
 				ktype = pWind->GetKeyPress(Key);
+				if (ballGame->getStuck() && Key == 32)
+				{
+					ballGame->setStuck(0);
+				}
 				pWind->SetPen(LAVENDER);
 				pWind->SetBrush(LAVENDER);
 				pWind->DrawRectangle(0,config.paddleStartHeight, config.windWidth, config.paddleStartHeight + config.paddleHeigth);
@@ -421,6 +425,23 @@ void game::go() const
 		{
 			if (lives->getLive() == 0)
 			{
+				point del;
+				del.x = 0;
+				del.y = 0;
+				for (int i = 0; i < (config.gridHeight / config.brickHeight); i++) {
+
+					for (int j = 0; j < (config.windWidth / config.brickWidth); j++)
+					{
+						if (getMatrix()[i][j]) {
+							del.y = (i *config.brickHeight + config.toolBarHeight);
+							del.x =j* config.brickWidth;
+							getGrid()->Delete(del);
+							
+						}
+					}
+
+				}
+				getGrid()->draw();
 				string messege = "Game Over.  | Final Score :" + to_string(score->getScore());
 				pWind->SetPen(RED, 50);
 				pWind->SetFont(35, BOLD, BY_NAME, "Arial");

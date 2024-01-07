@@ -16,6 +16,7 @@ protected:
 	int rad, Xinc, Yinc;
 	int destructPower = 1;
 	color Color;
+	bool isStuck;
 
 public:
 	Ball(point ballUprLeft, int rad, int r_height, game* r_pGame);
@@ -32,6 +33,8 @@ public:
 	void SetYinc(int);
 	int GetCenterX();
 	void Reset();
+	void setStuck(bool Stuck);
+	bool getStuck() const;
 	
 
 };

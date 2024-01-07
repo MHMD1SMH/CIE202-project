@@ -6,7 +6,7 @@ Ball::Ball(point ballUprLeft, int rad, int Hrad, game* r_pGame)
 	this->Center = ballUprLeft;
 	this->rad = rad;
 	Xinc = 0, Yinc = rad;
-
+	isStuck = false;
 
 }
 void Ball::draw(color C) {
@@ -34,12 +34,21 @@ void Ball::MoveBall()
 	collisionAction();
 
 
+	if (!isStuck)
+	{
+		Center.x -= Xinc / 2;
+		Center.y -= Yinc / 2;
+		uprLft.x = Center.x;
+		uprLft.y = Center.y;
+	}
+	else
+	{
+		Center.x = pGame->getPaddle()->getuprLeft().x + config.paddleWidth / 2;
+		Center.y = config.paddleStartHeight - this->rad;
+		uprLft.x = Center.x;
+		uprLft.y = Center.y;
+	}
 
-
-	Center.x -= Xinc / 2;
-	Center.y -= Yinc / 2;
-	uprLft.x = Center.x;
-	uprLft.y = Center.y;
 
 
 }
@@ -203,4 +212,25 @@ void Ball::Reset()
 	Xinc = 0;
 	Yinc = -rad;
 }
+
+void Ball::setStuck(bool Stuck)
+{
+	isStuck = Stuck;
+}
+
+bool Ball::getStuck() const
+{
+	return isStuck;
+}
+
+
+
+
+
+
+
+
+
+
+
 

@@ -18,6 +18,6 @@ public:
 	void decreasePaddleSpeed();
 	void decreasePaddleWidth();
 	void reversePaddleDirection();
-
+	point getuprLeft();
 	void Reset();
 };

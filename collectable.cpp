@@ -13,7 +13,7 @@ collectable::collectable(point r_uprleft, int r_width, int r_height, game* r_pGa
 
 bool collectable::checkCollision(collidable* paddle)
 {
-	ColliedInfo info = this->isCollided(paddle, this);
+	ColliedInfo info = this->isCollided(pGame->getPaddle(), this);
 	return info.isCollided;
 }
 
@@ -27,7 +27,7 @@ bool collectable::moveCollectable()
 {
 
 	draw(pGame->getWind(), LAVENDER);
-	if (this->uprLft.y + this->width +3 <= config.windHeight - config.statusBarHeight) {
+	if (this->uprLft.y + this->width + 3 <= config.windHeight - config.statusBarHeight) {
 		this->uprLft.y += this->height / 2;
 		return true;
 	}
@@ -71,7 +71,7 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 {
 	powerUpTypes test = powerUpTypes(rand() % LastUp);
 
-	switch (0)
+	switch (3)
 	{
 	case FireBall:
 		arrOfCollectables.push_back(new fireBall(r_uprleft, r_pGame));
@@ -124,16 +124,19 @@ void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 void collectables::moveCollectables(collidable* paddle, window* pWind)
 {
 	for (int i = 0; i < arrOfCollectables.size(); i++) {
-		if (arrOfCollectables[i]->checkCollision(paddle) && arrOfCollectables[i]->getC() ==0) {
+		if (arrOfCollectables[i]->checkCollision(paddle) && arrOfCollectables[i]->getC() == 0) {
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
 			arrOfCollectables[i]->collisionAction();
-
+			if (arrOfCollectables[i]->getC() == 0)
+			{
+				arrOfCollectables.erase(arrOfCollectables.begin() + i);
+			}
 		}
 		else if (!arrOfCollectables[i]->moveCollectable() && arrOfCollectables[i]->getC() == 0) {
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
-			arrOfCollectables.erase(arrOfCollectables.begin() +i);
+			arrOfCollectables.erase(arrOfCollectables.begin() + i);
 		}
-		else if( arrOfCollectables[i]->getC() == 0)
+		else if (arrOfCollectables[i]->getC() == 0)
 		{
 			arrOfCollectables[i]->draw(pWind, arrOfCollectables[i]->getColor());
 		}
@@ -159,7 +162,7 @@ fireBall::fireBall(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGa
 
 void fireBall::collisionAction()
 {
-	if (c==0) {
+	if (c == 0) {
 		this->width = 0;
 		pGame->setBallColor(ORANGE);
 		config.destructPower = 3;
@@ -169,7 +172,7 @@ void fireBall::collisionAction()
 
 bool fireBall::ResetAction()
 {
-	if (this->getSec() == stoi(pGame->getTime()->getinsec())  && this->getMin() == stoi(pGame->getTime()->getinmin()) - 1)
+	if (this->getSec() == stoi(pGame->getTime()->getinsec()) && this->getMin() == stoi(pGame->getTime()->getinmin()) - 1)
 	{
 		pGame->setBallColor(RED);
 		config.destructPower = 1;
@@ -213,7 +216,7 @@ void widePaddle::collisionAction()
 
 bool widePaddle::ResetAction()
 {
-	if (this->getSec() == stoi(pGame->getTime()->getinsec()) && this->getMin() == stoi(pGame->getTime()->getinmin()) -1)
+	if (this->getSec() == stoi(pGame->getTime()->getinsec()) && this->getMin() == stoi(pGame->getTime()->getinmin()) - 1)
 	{
 		pGame->decreasePaddleWidth();
 		return true;
@@ -230,13 +233,12 @@ magnet::magnet(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 
 void magnet::collisionAction()
 {
-	pGame->getBall()->Reset();
-	pGame->getPaddle()->Reset();
-
+	pGame->getBall()->setStuck(1);
 }
 
 bool magnet::ResetAction()
 {
+
 	return false;
 }
 

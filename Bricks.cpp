@@ -228,8 +228,6 @@ void constructBrick::collisionAction()
 	int row = (uprLft.y - config.toolBarHeight) / config.brickHeight ;
 	pWind->SetPen(LAVENDER);
 	pWind->SetBrush(LAVENDER);
-	/*cout << (pGame->getMatrix()[row + 1][col]) << endl;
-	cout << (pGame->getMatrix()[row ][col]) << endl;*/
 	
 	//pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 	if (!pGame->getMatrix()[row + 1][col] && !(isCollided(this,pGame->getBall()).side == UPPER))
