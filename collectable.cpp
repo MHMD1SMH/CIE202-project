@@ -124,7 +124,7 @@ void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 void collectables::moveCollectables(collidable* paddle, window* pWind)
 {
 	for (int i = 0; i < arrOfCollectables.size(); i++) {
-		if (arrOfCollectables[i]->checkCollision(paddle)) {
+		if (arrOfCollectables[i]->checkCollision(paddle) && arrOfCollectables[i]->getC() ==0) {
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
 			arrOfCollectables[i]->collisionAction();
 
@@ -169,7 +169,7 @@ void fireBall::collisionAction()
 
 bool fireBall::ResetAction()
 {
-	if (this->getSec() == stoi(pGame->getTime()->getinsec()) && this->getMin() == stoi(pGame->getTime()->getinmin()) - 1)
+	if (this->getSec() == stoi(pGame->getTime()->getinsec())  && this->getMin() == stoi(pGame->getTime()->getinmin()) - 1)
 	{
 		pGame->setBallColor(RED);
 		config.destructPower = 1;

@@ -400,6 +400,7 @@ void game::go() const
 
 
 			}
+
 			timer->setInit(false);
 
 			//pWind->SetBuffering(false);
@@ -414,6 +415,7 @@ void game::go() const
 				isExit = gameToolbar->handleClick(x, y);
 
 			}
+
 		}
 		if (*gameMode == MODE_END)
 		{
