@@ -71,7 +71,7 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 {
 	powerUpTypes test = powerUpTypes(rand() % LastUp);
 
-	switch (test)
+	switch (0)
 	{
 	case FireBall:
 		arrOfCollectables.push_back(new fireBall(r_uprleft, r_pGame));
@@ -125,8 +125,8 @@ void collectables::moveCollectables(collidable* paddle, window* pWind)
 {
 	for (int i = 0; i < arrOfCollectables.size(); i++) {
 		if (arrOfCollectables[i]->checkCollision(paddle)) {
-			arrOfCollectables[i]->collisionAction();
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
+			arrOfCollectables[i]->collisionAction();
 
 		}
 		else if (!arrOfCollectables[i]->moveCollectable() && arrOfCollectables[i]->getC() == 0) {
@@ -160,6 +160,7 @@ fireBall::fireBall(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGa
 void fireBall::collisionAction()
 {
 	if (c==0) {
+		this->width = 0;
 		pGame->setBallColor(ORANGE);
 		config.destructPower = 3;
 		c += 1;
