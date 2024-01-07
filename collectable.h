@@ -5,6 +5,8 @@
 class collectable : public collidable {
 protected:
 	color Color;
+	string initiatemin;
+	string initiatesec;
 public:
 	collectable(point r_uprleft, game* r_pGame);
 	collectable(point r_uprleft, int r_width, int r_height, game* r_pGame);
@@ -16,7 +18,8 @@ public:
 	bool moveCollectable();
 
 	color getColor();
-
+	int getMin();
+	int getSec();
 	void draw(window* pwind, color c);
 
 };
@@ -46,6 +49,7 @@ class widePaddle :public collectable {
 public:
 	widePaddle(point r_uprleft, game* r_pGame);
 	void collisionAction()override;
+	void Reset();
 };
 
 class magnet :public collectable {

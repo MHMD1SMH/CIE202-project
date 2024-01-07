@@ -264,7 +264,8 @@ void iconLoad::onClick()
 	inFile.open("gameDesign.txt");
 	//pGame->printMessage("Loading");
 	//TO DO: add code for cleanup and game exit here
-	int bricktybe = 0;
+	BrickType bricktybe ;
+	int type = 0;
 	point xy;
 	xy.x = 0;
 	xy.y = 0;
@@ -286,27 +287,23 @@ void iconLoad::onClick()
 		}
 		else if (c == 2)
 		{
-			inFile >> bricktybe;
+
+			inFile >> type;
+			bricktybe = BrickType(type);
 			c += 1;
 		}
 		if (c == 3)
 		{
 			xy.y = config.toolBarHeight + xy.y * config.brickHeight;
 			xy.x = xy.x * config.brickWidth;
-			if (bricktybe == 0)
+			pGame->getGrid()->addBrick(bricktybe, xy);
+			if (bricktybe == BRK_HRD)
 			{
-				pGame->getGrid()->addBrick(BRK_NRM, xy);
-				config.totalScore+=1;
-			}
-			else if (bricktybe == 1)
-			{
-				pGame->getGrid()->addBrick(BRK_HRD, xy);
 				config.totalScore+=3;
 			}
-			else if (bricktybe == 3)
+			else if (bricktybe != BRK_RCK)
 			{
-				pGame->getGrid()->addBrick(BRK_RCK, xy);
-
+				config.totalScore+=1;
 			}
 			c = 0;
 		}

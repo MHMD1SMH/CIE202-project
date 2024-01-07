@@ -1,19 +1,19 @@
 #include "collectable.h"
 #include "gameConfig.h"
 #include "game.h"
-collectable::collectable(point r_uprleft, game* r_pGame):
+collectable::collectable(point r_uprleft, game* r_pGame) :
 	collidable(r_uprleft, 10, 10, r_pGame)
 {
 }
 
-collectable::collectable(point r_uprleft, int r_width, int r_height, game* r_pGame):
+collectable::collectable(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	collidable(r_uprleft, r_width, r_height, r_pGame)
 {
 }
 
 bool collectable::checkCollision(collidable* paddle)
 {
-	ColliedInfo info = this->isCollided(paddle , this);
+	ColliedInfo info = this->isCollided(paddle, this);
 	return info.isCollided;
 }
 
@@ -25,9 +25,9 @@ void collectable::collisionAction()
 
 bool collectable::moveCollectable()
 {
-	
-	draw(pGame->getWind(),LAVENDER );
-	if (this->uprLft.y <= config.windHeight) {
+
+	draw(pGame->getWind(), LAVENDER);
+	if (this->uprLft.y + this->width <= config.windHeight - config.statusBarHeight) {
 		this->uprLft.y += this->height / 2;
 		return true;
 	}
@@ -39,9 +39,19 @@ color collectable::getColor()
 	return this->Color;
 }
 
+int collectable::getMin()
+{
+	return stoi(initiatemin);
+}
+
+int collectable::getSec()
+{
+	return stoi(initiatesec);
+}
+
 void collectable::draw(window* pWind, color c)
 {
-	
+
 	pWind->SetPen(c);
 	pWind->SetBrush(c);
 	pWind->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
@@ -54,32 +64,32 @@ collectables::collectables()
 void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 {
 	powerUpTypes test = powerUpTypes(rand() % LastUp);
-	
+
 	switch (test)
 	{
 	case FireBall:
-		arrOfCollectables.push_back(new fireBall(r_uprleft,r_pGame));
+		arrOfCollectables.push_back(new fireBall(r_uprleft, r_pGame));
 		break;
 	case WindGlide:
 		//arrOfCollectables.push_back();
-		arrOfCollectables.push_back(new windGlide(r_uprleft,r_pGame));
+		arrOfCollectables.push_back(new windGlide(r_uprleft, r_pGame));
 		break;
 	case WidePaddle:
 		//arrOfCollectables.push_back();
-		arrOfCollectables.push_back(new widePaddle(r_uprleft,r_pGame));
+		arrOfCollectables.push_back(new widePaddle(r_uprleft, r_pGame));
 		break;
 	case Magnet:
-		arrOfCollectables.push_back(new magnet(r_uprleft,r_pGame));
+		arrOfCollectables.push_back(new magnet(r_uprleft, r_pGame));
 		//arrOfCollectables.push_back();
 		break;
 	case MultipleBalls:
-		arrOfCollectables.push_back(new multipleBalls(r_uprleft,r_pGame));
+		arrOfCollectables.push_back(new multipleBalls(r_uprleft, r_pGame));
 		//arrOfCollectables.push_back();
 		break;
 	default:
 		break;
 	}
-	
+
 }
 
 void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
@@ -105,28 +115,28 @@ void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 
 }
 
-void collectables::moveCollectables(collidable* paddle,window *pWind)
+void collectables::moveCollectables(collidable* paddle, window* pWind)
 {
 	for (int i = 0; i < arrOfCollectables.size(); i++) {
 		if (arrOfCollectables[i]->checkCollision(paddle)) {
 			arrOfCollectables[i]->collisionAction();
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
-			arrOfCollectables.erase(arrOfCollectables.begin()+ i);
+			
 		}
-		else if (!arrOfCollectables[i]->moveCollectable()){
+		else if (!arrOfCollectables[i]->moveCollectable()) {
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
 			arrOfCollectables.erase(arrOfCollectables.begin() + i);
 		}
 		else {
-			arrOfCollectables[i]->draw(pWind , arrOfCollectables[i]->getColor());
+			arrOfCollectables[i]->draw(pWind, arrOfCollectables[i]->getColor());
 		}
-
+		
 	}
 }
 
 
 
-fireBall::fireBall(point r_uprleft, game* r_pGame):collectable(r_uprleft, r_pGame)
+fireBall::fireBall(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
 	Color = RED;
 }
@@ -134,6 +144,7 @@ fireBall::fireBall(point r_uprleft, game* r_pGame):collectable(r_uprleft, r_pGam
 void fireBall::collisionAction()
 {
 	pGame->setBallColor(ORANGE);
+	config.destructPower = 3;
 }
 
 windGlide::windGlide(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
@@ -144,6 +155,7 @@ windGlide::windGlide(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_p
 void windGlide::collisionAction()
 {
 	pGame->increasePaddleSpeed();
+
 }
 
 widePaddle::widePaddle(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
@@ -154,7 +166,14 @@ widePaddle::widePaddle(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r
 void widePaddle::collisionAction()
 {
 
+	initiatemin = pGame->getTime()->getinmin();
+	initiatesec = pGame->getTime()->getinsec();
 	pGame->increasePaddleWidth();
+}
+
+void widePaddle::Reset()
+{
+	pGame->decreasePaddleWidth();
 }
 
 magnet::magnet(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)

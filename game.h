@@ -72,6 +72,6 @@ public:
 	void setBallColor(color C);
 	Ball* getBall() const;
 	brick*** getMatrix()const;
-
+	Time* getTime()const;
 
 };

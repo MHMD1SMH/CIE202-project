@@ -227,6 +227,11 @@ brick*** game::getMatrix() const
 	return bricksGrid->GetBrick();
 }
 
+Time* game::getTime() const
+{
+	return timer;
+}
+
 
 
 void game::addUpCollectable(point upr_lft)
@@ -355,7 +360,7 @@ void game::go() const
 
 
 				pWind->GetMouseClick(x, y);
-				if (x > (config.iconWidth * 4) && y >= 0 && y < config.toolBarHeight && x < config.iconWidth * 8)
+				if (x > (config.iconWidth * 11) && y >= 0 && y < config.toolBarHeight && x < config.iconWidth * 16)
 				{
 
 
@@ -402,7 +407,7 @@ void game::go() const
 
 
 			getMouseClick(x, y);
-			if (y >= 0 && y < config.toolBarHeight && x > config.iconWidth * 5)
+			if (y >= 0 && y < config.toolBarHeight && x > config.iconWidth * 12)
 			{
 				isExit = gameToolbar->handleClick(x, y);
 

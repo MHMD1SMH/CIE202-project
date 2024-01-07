@@ -55,9 +55,9 @@ hardBrick::hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 void hardBrick::collisionAction()
 {
 	//TODO: Add collision action logic
-	strength--;
-	pGame->SetScore(1);
-	if (!strength)
+	strength-=config.destructPower;
+	pGame->SetScore(config.destructPower);
+	if (strength <= 0)
 	{
 		pWind->SetPen(LAVENDER);
 		pWind->SetBrush(LAVENDER);
@@ -82,6 +82,9 @@ rockBrick::rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 void rockBrick::collisionAction()
 {
 	// no thing just change ball dirction
+	pWind->SetPen(LAVENDER);
+	pWind->SetBrush(LAVENDER);
+	pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 
 }
 
@@ -131,7 +134,14 @@ PowerDownBrick::PowerDownBrick(point r_uprleft, int r_width, int r_height, game*
 
 void PowerDownBrick::collisionAction()
 {
-
+	strength--;
+	pGame->SetScore(1);
+	if (!strength)
+	{
+		pWind->SetPen(LAVENDER);
+		pWind->SetBrush(LAVENDER);
+		pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
+	}
 	pGame->addDownCollectable(this->uprLft);
 }
 
