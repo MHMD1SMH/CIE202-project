@@ -53,7 +53,6 @@ int collectable::getSec()
 
 void collectable::draw(window* pWind, color c)
 {
-
 	pWind->SetPen(c);
 	pWind->SetBrush(c);
 	pWind->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
@@ -132,13 +131,13 @@ void collectables::moveCollectables(collidable* paddle, window* pWind)
 		}
 		else if (!arrOfCollectables[i]->moveCollectable() && arrOfCollectables[i]->getC() == 0) {
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
-			arrOfCollectables.erase(arrOfCollectables.begin() + i);
+			arrOfCollectables.erase(arrOfCollectables.begin() +i);
 		}
 		else if( arrOfCollectables[i]->getC() == 0)
 		{
 			arrOfCollectables[i]->draw(pWind, arrOfCollectables[i]->getColor());
 		}
-		if (arrOfCollectables[i]->ResetAction())
+		else if (arrOfCollectables[i]->ResetAction())
 		{
 
 			arrOfCollectables.erase(arrOfCollectables.begin() + i);
