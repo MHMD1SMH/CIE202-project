@@ -11,10 +11,10 @@ ColliedInfo collidable::isCollided(const  collidable* object1, const collidable*
 	ans.isCollided = false;
 	
 	if (
-		((object1->uprLft.x + object1->width) <= (ballCenter->uprLft.x - ballCenter->width-5)  ||
-		(object1->uprLft.y  + object1->height) <= (ballCenter->uprLft.y - ballCenter->height-5)) ||
-		(object1->uprLft.x >= (ballCenter->uprLft.x + ballCenter->width +5) ||
-		object1->uprLft.y >= (ballCenter->uprLft.y + ballCenter->height+5))
+		((object1->uprLft.x + object1->width) <= (ballCenter->uprLft.x - ballCenter->width-8)  ||
+		(object1->uprLft.y  + object1->height) <= (ballCenter->uprLft.y - ballCenter->height-8)) ||
+		(object1->uprLft.x >= (ballCenter->uprLft.x + ballCenter->width +8) ||
+		object1->uprLft.y >= (ballCenter->uprLft.y + ballCenter->height+8))
 		)
 	{
 		return ans;

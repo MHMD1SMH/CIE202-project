@@ -64,7 +64,9 @@ void paddle::decreasePaddleSpeed()
 
 void paddle::decreasePaddleWidth()
 {
-	width -= 100;
+
+	config.paddleWidth -= 100;
+	this->width = config.paddleWidth;
 }
 
 void paddle::reversePaddleDirection()

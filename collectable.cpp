@@ -27,12 +27,14 @@ bool collectable::moveCollectable()
 {
 
 	draw(pGame->getWind(), LAVENDER);
-	if (this->uprLft.y + this->width <= config.windHeight - config.statusBarHeight) {
+	if (this->uprLft.y + this->width +3 <= config.windHeight - config.statusBarHeight) {
 		this->uprLft.y += this->height / 2;
 		return true;
 	}
 	return false;
 }
+
+
 
 color collectable::getColor()
 {
@@ -55,6 +57,11 @@ void collectable::draw(window* pWind, color c)
 	pWind->SetPen(c);
 	pWind->SetBrush(c);
 	pWind->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
+}
+
+int collectable::getC()
+{
+	return c;
 }
 
 collectables::collectables()
@@ -121,16 +128,22 @@ void collectables::moveCollectables(collidable* paddle, window* pWind)
 		if (arrOfCollectables[i]->checkCollision(paddle)) {
 			arrOfCollectables[i]->collisionAction();
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
-			
+
 		}
-		else if (!arrOfCollectables[i]->moveCollectable()) {
+		else if (!arrOfCollectables[i]->moveCollectable() && arrOfCollectables[i]->getC() == 0) {
 			arrOfCollectables[i]->draw(pWind, LAVENDER);
 			arrOfCollectables.erase(arrOfCollectables.begin() + i);
 		}
-		else {
+		else if( arrOfCollectables[i]->getC() == 0)
+		{
 			arrOfCollectables[i]->draw(pWind, arrOfCollectables[i]->getColor());
 		}
-		
+		if (arrOfCollectables[i]->ResetAction())
+		{
+
+			arrOfCollectables.erase(arrOfCollectables.begin() + i);
+
+		}
 	}
 }
 
@@ -138,13 +151,31 @@ void collectables::moveCollectables(collidable* paddle, window* pWind)
 
 fireBall::fireBall(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
+
 	Color = RED;
+	initiatemin = pGame->getTime()->getinmin();
+	initiatesec = pGame->getTime()->getinsec();
 }
+
 
 void fireBall::collisionAction()
 {
-	pGame->setBallColor(ORANGE);
-	config.destructPower = 3;
+	if (c==0) {
+		pGame->setBallColor(ORANGE);
+		config.destructPower = 3;
+		c += 1;
+	}
+}
+
+bool fireBall::ResetAction()
+{
+	if (this->getSec() == stoi(pGame->getTime()->getinsec()) && this->getMin() == stoi(pGame->getTime()->getinmin()) - 1)
+	{
+		pGame->setBallColor(RED);
+		config.destructPower = 1;
+		return true;
+	}
+	return false;
 }
 
 windGlide::windGlide(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
@@ -158,23 +189,39 @@ void windGlide::collisionAction()
 
 }
 
+bool windGlide::ResetAction()
+{
+	return false;
+}
+
 widePaddle::widePaddle(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
 	Color = ORANGE;
+	initiatemin = pGame->getTime()->getinmin();
+	initiatesec = pGame->getTime()->getinsec();
 }
 
 void widePaddle::collisionAction()
 {
 
-	initiatemin = pGame->getTime()->getinmin();
-	initiatesec = pGame->getTime()->getinsec();
-	pGame->increasePaddleWidth();
+	if (c == 0)
+	{
+		pGame->increasePaddleWidth();
+		c += 1;
+	}
 }
 
-void widePaddle::Reset()
+bool widePaddle::ResetAction()
 {
-	pGame->decreasePaddleWidth();
+	if (this->getSec() == stoi(pGame->getTime()->getinsec()) && this->getMin() == stoi(pGame->getTime()->getinmin()) -1)
+	{
+		pGame->decreasePaddleWidth();
+		return true;
+	}
+	return false;
 }
+
+
 
 magnet::magnet(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
@@ -188,6 +235,11 @@ void magnet::collisionAction()
 
 }
 
+bool magnet::ResetAction()
+{
+	return false;
+}
+
 multipleBalls::multipleBalls(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
 	Color = LIGHTGRAY;
@@ -196,6 +248,11 @@ multipleBalls::multipleBalls(point r_uprleft, game* r_pGame) :collectable(r_uprl
 void multipleBalls::collisionAction()
 {
 
+}
+
+bool multipleBalls::ResetAction()
+{
+	return false;
 }
 
 narrowPaddle::narrowPaddle(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
@@ -207,6 +264,10 @@ void narrowPaddle::collisionAction()
 {
 	pGame->decreasePaddleWidth();
 }
+bool narrowPaddle::ResetAction()
+{
+	return false;
+}
 reverseDirection::reverseDirection(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
 	Color = RED;
@@ -215,6 +276,11 @@ reverseDirection::reverseDirection(point r_uprleft, game* r_pGame) :collectable(
 void reverseDirection::collisionAction()
 {
 	pGame->reversePaddleDirection();
+}
+
+bool reverseDirection::ResetAction()
+{
+	return false;
 }
 
 quickSand::quickSand(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
@@ -227,6 +293,11 @@ void quickSand::collisionAction()
 	pGame->decreasePaddleSpeed();
 }
 
+bool quickSand::ResetAction()
+{
+	return false;
+}
+
 zeroDeath::zeroDeath(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
 {
 	Color = BLACK;
@@ -235,4 +306,9 @@ zeroDeath::zeroDeath(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_p
 void zeroDeath::collisionAction()
 {
 	pGame->SetScore(-100);//for example
+}
+
+bool zeroDeath::ResetAction()
+{
+	return false;
 }

@@ -11,8 +11,8 @@ game::game()
 	lives = new Live;
 	score = new Score;
 	timer = new Time(false);
-	collectAbles = new collectables();
 
+	collectAbles = new collectables();
 	//1 - Create the main window
 	pWind = CreateWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
@@ -338,10 +338,12 @@ void game::go() const
 
 				collectAbles->moveCollectables(Paddle, pWind);
 				Pause(5);
-
 				pWind->FlushKeyQueue();
-				Paddle->draw(LAVENDER);
 				ktype = pWind->GetKeyPress(Key);
+				pWind->SetPen(LAVENDER);
+				pWind->SetBrush(LAVENDER);
+				pWind->DrawRectangle(0,config.paddleStartHeight, config.windWidth, config.paddleStartHeight + config.paddleHeigth);
+				//Paddle->draw(LAVENDER);
 				if (Key == 100) {
 					Paddle->movePaddle(true);
 

@@ -121,13 +121,13 @@ void Ball::collisionAction()
 				(isCollided(pGame->getMatrix()[i][j], this).side == LOWER ||
 					isCollided(pGame->getMatrix()[i][j], this).side == UPPER)) {
 				Yinc = -Yinc;
-				if (Yinc > 0) {
+				/*if (Yinc > 0) {
 					Center.y -= 7.5;
 				}
 				else
 				{
 					Center.y += 7.5;
-				}
+				}*/
 
 
 				pGame->getGrid()->deletBrick(i, j);
@@ -137,10 +137,10 @@ void Ball::collisionAction()
 				(isCollided(pGame->getMatrix()[i][j], this).side == LEFT ||
 					isCollided(pGame->getMatrix()[i][j], this).side == RIGHT)) {
 				Xinc = -Xinc;
-				if (Xinc > 0)
+				/*if (Xinc > 0)
 					Center.x -= 7.5;
 				else
-					Center.x += 7.5;
+					Center.x += 7.5;*/
 
 				pGame->getGrid()->deletBrick(i, j);
 
