@@ -21,7 +21,7 @@ public:
 	color getColor();
 	int getMin();
 	int getSec();
-	void draw(window* pwind, color c);
+	void draw(color c);
 	int getC();
 };
 
