@@ -84,6 +84,11 @@ point paddle::getuprLeft()
 	return this->uprLft;
 }
 
+int paddle::getStep()
+{
+	return this->step;
+}
+
 void paddle::Reset()
 {
 	paddlePlace.x = 600 - (150 / 2);

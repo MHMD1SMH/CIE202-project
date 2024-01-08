@@ -90,7 +90,7 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 {
 	powerDownTypes test = powerDownTypes(rand() % LastDown);
-	switch (test)
+	switch (ReverseDirection)
 	{
 	case NarrowPaddle:
 		arrOfCollectables.push_back(new narrowPaddle(r_uprleft, r_pGame));
@@ -292,7 +292,7 @@ reverseDirection::reverseDirection(point r_uprleft, game* r_pGame) :collectable(
 
 void reverseDirection::collisionAction()
 {
-	if (c == 0)
+	if (c == 0&&pGame->getPaddle()->getStep()>0)
 	{
 		pGame->reversePaddleDirection();
 		c += 1;
