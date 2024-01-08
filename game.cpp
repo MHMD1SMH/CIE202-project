@@ -287,7 +287,7 @@ void game::go() const
 		{
 
 			//[1] If user clicks on the Toolbar
-			if (y >= 0 && y < config.toolBarHeight)
+			if (y >= 0 && y < config.toolBarHeight && (x < 11 * config.iconWidth || x >13* config.iconWidth))
 			{
 				isExit = gameToolbar->handleClick(x, y);
 
@@ -297,7 +297,7 @@ void game::go() const
 
 		if (*gameMode == MODE_PLAY)
 		{
-			
+
 			bool Space_isPressed = false;
 			timer->setInit(true);
 			printMessage("You can play now  ==> Press space bar to start <==");
@@ -346,7 +346,7 @@ void game::go() const
 				}
 				pWind->SetPen(LAVENDER);
 				pWind->SetBrush(LAVENDER);
-				pWind->DrawRectangle(0,config.paddleStartHeight, config.windWidth, config.paddleStartHeight + config.paddleHeigth);
+				pWind->DrawRectangle(0, config.paddleStartHeight, config.windWidth, config.paddleStartHeight + config.paddleHeigth);
 				//Paddle->draw(LAVENDER);
 				if (Key == 100) {
 					Paddle->movePaddle(true);
@@ -433,10 +433,10 @@ void game::go() const
 					for (int j = 0; j < (config.windWidth / config.brickWidth); j++)
 					{
 						if (getMatrix()[i][j]) {
-							del.y = (i *config.brickHeight + config.toolBarHeight);
-							del.x =j* config.brickWidth;
+							del.y = (i * config.brickHeight + config.toolBarHeight);
+							del.x = j * config.brickWidth;
 							getGrid()->Delete(del);
-							
+
 						}
 					}
 
@@ -482,5 +482,5 @@ void game::go() const
 		}
 
 		pWind->SetBuffering(false);
-	} while(!isExit);
+	} while (!isExit);
 }

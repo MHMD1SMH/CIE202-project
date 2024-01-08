@@ -363,6 +363,9 @@ void iconStop::onClick()
 {
 	//TO DO: add code for cleanup and game exit here
 	pGame->ChangeGameMode(0);
+	pGame->getBall()->draw(LAVENDER);
+	pGame->getPaddle()->draw(LAVENDER);
+	pGame->getGrid()->drawline();
 
 }
 
