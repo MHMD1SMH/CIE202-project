@@ -1,6 +1,12 @@
 #include "Ball.h"
 #include "game.h"
-Ball::Ball(point ballUprLeft, int rad, int Hrad, game* r_pGame)
+
+Ball::Ball(point upr, game* p) :
+	collidable(upr, 10, 10, p)
+{
+}
+
+Ball::Ball(point ballUprLeft, int rad, int Hrad, game* r_pGame )
 	:collidable(ballUprLeft, rad, Hrad, r_pGame)
 {
 	this->Center = ballUprLeft;
@@ -222,15 +228,5 @@ bool Ball::getStuck() const
 {
 	return isStuck;
 }
-
-
-
-
-
-
-
-
-
-
 
 

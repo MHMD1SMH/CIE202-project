@@ -33,4 +33,6 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 	int	iconWidth=70;			//Width of each icon in toolbar 	
 
 	int destructPower = 1;
+	
+
 }config;

@@ -78,9 +78,6 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 	case Magnet:
 		arrOfCollectables.push_back(new magnet(r_uprleft, r_pGame));
 		break;
-	case MultipleBalls:
-		arrOfCollectables.push_back(new multipleBalls(r_uprleft, r_pGame));
-		break;
 	default:
 		break;
 	}
@@ -239,23 +236,6 @@ void magnet::collisionAction()
 bool magnet::ResetAction()
 {
 
-	return false;
-}
-
-multipleBalls::multipleBalls(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
-{
-	Color = LIGHTGRAY;
-	initiatemin = pGame->getTime()->getinmin();
-	initiatesec = pGame->getTime()->getinsec();
-}
-
-void multipleBalls::collisionAction()
-{
-
-}
-
-bool multipleBalls::ResetAction()
-{
 	return false;
 }
 

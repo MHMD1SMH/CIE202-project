@@ -16,7 +16,7 @@ public:
 	virtual void collisionAction() = 0;
 
 	bool moveCollectable();
-	virtual bool ResetAction()= 0;
+	virtual bool ResetAction() = 0;
 	color getColor();
 	int getMin();
 	int getSec();
@@ -29,7 +29,6 @@ enum powerUpTypes {
 	WindGlide,
 	WidePaddle,
 	Magnet,
-	MultipleBalls,
 	LastUp
 };
 
@@ -37,7 +36,7 @@ class windGlide :public collectable {
 public:
 	windGlide(point r_uprleft, game* r_pGame);
 	void collisionAction() override;
-	bool ResetAction() override ;
+	bool ResetAction() override;
 };
 
 class fireBall :public collectable {
@@ -61,12 +60,7 @@ public:
 	bool ResetAction() override;
 };
 
-class multipleBalls :public collectable {
-public:
-	multipleBalls(point r_uprleft, game* r_pGame);
-	void collisionAction()override;
-	bool ResetAction() override;
-};
+
 
 enum powerDownTypes {
 	NarrowPaddle,

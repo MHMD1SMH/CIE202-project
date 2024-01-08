@@ -13,6 +13,7 @@ game::game()
 	timer = new Time(false);
 
 	collectAbles = new collectables();
+
 	//1 - Create the main window
 	pWind = CreateWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
@@ -56,6 +57,8 @@ game::~game()
 	delete gameToolbar;
 	delete bricksGrid;
 	delete timer;
+	delete collectAbles;
+
 
 }
 
@@ -234,6 +237,7 @@ Time* game::getTime() const
 
 
 
+
 void game::addUpCollectable(point upr_lft)
 {
 	collectAbles->addUpCollectable(upr_lft, this);
@@ -337,6 +341,7 @@ void game::go() const
 
 
 				collectAbles->moveCollectables(Paddle, pWind);
+
 				Pause(5);
 				pWind->FlushKeyQueue();
 				ktype = pWind->GetKeyPress(Key);
@@ -478,6 +483,7 @@ void game::go() const
 			ballGame->draw(LAVENDER);
 			getGrid();
 			ballGame->Reset();
+			config.totalScore = 0;
 			*gameMode = MODE_DSIGN;
 		}
 

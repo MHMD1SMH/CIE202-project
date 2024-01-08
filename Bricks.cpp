@@ -55,7 +55,7 @@ hardBrick::hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 void hardBrick::collisionAction()
 {
 	//TODO: Add collision action logic
-	strength-=config.destructPower;
+	strength -= config.destructPower;
 	pGame->SetScore(config.destructPower);
 	if (strength <= 0)
 	{
@@ -114,7 +114,10 @@ void PowerUpBrick::collisionAction()
 		pWind->SetBrush(LAVENDER);
 		pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 	}
-	pGame->addUpCollectable(this->uprLft);
+	point center;
+	center.x = uprLft.x + config.brickWidth / 2;
+	center.y = uprLft.y + config.brickHeight / 2;
+	pGame->addUpCollectable(center);
 }
 
 BrickType PowerUpBrick::BrickTybe()
@@ -142,7 +145,10 @@ void PowerDownBrick::collisionAction()
 		pWind->SetBrush(LAVENDER);
 		pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 	}
-	pGame->addDownCollectable(this->uprLft);
+	point center;
+	center.x = uprLft.x + config.brickWidth / 2;
+	center.y = uprLft.y + config.brickHeight / 2;
+	pGame->addDownCollectable(center);
 }
 
 BrickType PowerDownBrick::BrickTybe()
@@ -156,12 +162,12 @@ BombBrick::BombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 	brick(r_uprleft, r_width, r_height, r_pGame)
 {
 	imageName = "images\\bricks\\BombBrick.jpg";
-	strength = 1;
+	strength = 4;
 }
 
 void BombBrick::collisionAction()
 {
-	strength--;
+	strength=0;
 	pGame->SetScore(4);
 	if (!strength)
 	{
@@ -172,6 +178,7 @@ void BombBrick::collisionAction()
 		pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 		if (pGame->getMatrix()[row + 1][col])
 		{
+			pGame->SetScore(pGame->getMatrix()[row + 1][col]->strength);
 			delete pGame->getMatrix()[row + 1][col];
 			pGame->getMatrix()[row + 1][col] = nullptr;
 			pWind->DrawRectangle(uprLft.x, uprLft.y + config.brickHeight
@@ -179,6 +186,7 @@ void BombBrick::collisionAction()
 		}
 		if (pGame->getMatrix()[row - 1][col])
 		{
+			pGame->SetScore(pGame->getMatrix()[row - 1][col]->strength);
 			delete pGame->getMatrix()[row - 1][col];
 			pGame->getMatrix()[row - 1][col] = nullptr;
 			pWind->DrawRectangle(uprLft.x, uprLft.y - config.brickHeight
@@ -186,6 +194,7 @@ void BombBrick::collisionAction()
 		}
 		if (pGame->getMatrix()[row][col + 1])
 		{
+			pGame->SetScore(pGame->getMatrix()[row][col + 1]->strength);
 			delete pGame->getMatrix()[row][col + 1];
 			pGame->getMatrix()[row][col + 1] = nullptr;
 			pWind->DrawRectangle(uprLft.x + config.brickWidth, uprLft.y,
@@ -193,6 +202,7 @@ void BombBrick::collisionAction()
 		}
 		if (pGame->getMatrix()[row][col - 1])
 		{
+			pGame->SetScore(pGame->getMatrix()[row][col - 1]->strength);
 			delete pGame->getMatrix()[row][col - 1];
 			pGame->getMatrix()[row][col - 1] = nullptr;
 			pWind->DrawRectangle(uprLft.x - config.brickWidth, uprLft.y,
@@ -224,21 +234,29 @@ void constructBrick::collisionAction()
 	point newp;
 
 	//grid* pGrid = pGame->getGrid();
-	int col = uprLft.x / config.brickWidth;
-	int row = (uprLft.y - config.toolBarHeight) / config.brickHeight ;
+	/*int col = uprLft.x / config.brickWidth;
+	int row = (uprLft.y - config.toolBarHeight) / config.brickHeight ;*/
+	int col = rand() % 30;
+	int row = rand() % 10;
 	pWind->SetPen(LAVENDER);
 	pWind->SetBrush(LAVENDER);
-	
+	if (!pGame->getMatrix()[row][col])
+	{
+		newp.x = col * config.brickWidth;
+		newp.y = row * config.brickHeight + config.toolBarHeight;
+		pGame->getGrid()->addBrick(BRK_NRM, newp);
+		config.totalScore += 1;
+	}
 	//pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
-	if (!pGame->getMatrix()[row + 1][col] && !(isCollided(this,pGame->getBall()).side == UPPER))
+	/*if (!pGame->getMatrix()[row + 1][col] && !(isCollided(this,pGame->getBall()).side == UPPER))
 	{
 		newp.x = uprLft.x;
 		newp.y = uprLft.y + config.brickHeight;
 		pGame->getGrid()->addBrick(BRK_NRM, newp);
 		config.totalScore += 1;
 	}
-	cout << (pGame->getMatrix()[row - 1][col]) << endl;
-	if (!(pGame->getMatrix()[row - 1][col]))
+
+	else if (!(pGame->getMatrix()[row - 1][col]))
 	{
 		newp.x = uprLft.x;
 		newp.y = uprLft.y - config.brickHeight;
@@ -247,23 +265,23 @@ void constructBrick::collisionAction()
 
 	}
 
-	cout << ans.side;
-	if (!pGame->getMatrix()[row][col + 1] && !(ans.side == RIGHT))
+
+	else if (!pGame->getMatrix()[row][col + 1] && !(ans.side == RIGHT))
 	{
 		newp.x = uprLft.x + config.brickWidth;
 		newp.y = uprLft.y;
 		pGame->getGrid()->addBrick(BRK_NRM, newp);
 		config.totalScore += 1;
 	}
-	if (!pGame->getMatrix()[row][col - 1] && !(ans.side == LEFT))
+	else if (!pGame->getMatrix()[row][col - 1] && !(ans.side == LEFT))
 	{
 		newp.x = uprLft.x - config.brickWidth;
 		newp.y = uprLft.y;
 		pGame->getGrid()->addBrick(BRK_NRM, newp);
 		config.totalScore += 1;
 
-	}
-
+	}*/
+	cout << ans.side << endl;
 
 	pGame->getGrid()->draw();
 	pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
