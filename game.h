@@ -73,5 +73,6 @@ public:
 	Ball* getBall() const;
 	brick*** getMatrix()const;
 	Time* getTime()const;
+	void setLive();
 
 };

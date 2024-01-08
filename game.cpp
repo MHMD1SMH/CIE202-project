@@ -234,6 +234,10 @@ Time* game::getTime() const
 {
 	return timer;
 }
+void game::setLive()
+{
+	lives->setLive();
+}
 
 
 
@@ -252,9 +256,6 @@ void game::addDownCollectable(point upr_lft)
 ////////////////////////////////////////////////////////////////////////
 void game::go() const
 {
-	//This function reads the position where the user clicks to determine the desired operation
-
-	//pWind->SetBuffering(true);
 	int x, y;
 	bool isExit = false;
 	char Key;
@@ -269,9 +270,7 @@ void game::go() const
 	{
 
 
-		if ((*gameMode == MODE_PLAY || *gameMode == MODE_STOP)) /*&&
-			lives->getLive() > 0 &&
-			(score->getScore() != config.totalScore))*/
+		if ((*gameMode == MODE_PLAY || *gameMode == MODE_STOP)) 
 		{
 			string messege = " Lives :" + to_string(lives->getLive()) +
 				" | Score :" + to_string(score->getScore()) +
@@ -291,7 +290,7 @@ void game::go() const
 		{
 
 			//[1] If user clicks on the Toolbar
-			if (y >= 0 && y < config.toolBarHeight && (x < 11 * config.iconWidth || x >13* config.iconWidth))
+			if (y >= 0 && y < config.toolBarHeight && (x < 11 * config.iconWidth || x >13 * config.iconWidth))
 			{
 				isExit = gameToolbar->handleClick(x, y);
 
@@ -314,8 +313,6 @@ void game::go() const
 			while (Space_isPressed)
 			{
 
-				//pWind->DrawRectangle(Paddle->paddlePlace.x, Paddle->paddlePlace.y,
-					//Paddle->paddlePlace.x + config.paddleWidth, Paddle->paddlePlace.y + config.paddleHeigth);
 				pWind->FlushKeyQueue();
 
 				getGrid()->drawline();
@@ -324,7 +321,6 @@ void game::go() const
 
 				if (score->getScore() == config.totalScore)
 				{
-					//ChangeGameMode(3);
 					*gameMode = MODE_END;
 					pWind->SetPen(LAVENDER);
 					pWind->SetBrush(LAVENDER);
@@ -352,7 +348,6 @@ void game::go() const
 				pWind->SetPen(LAVENDER);
 				pWind->SetBrush(LAVENDER);
 				pWind->DrawRectangle(0, config.paddleStartHeight, config.windWidth, config.paddleStartHeight + config.paddleHeigth);
-				//Paddle->draw(LAVENDER);
 				if (Key == 100) {
 					Paddle->movePaddle(true);
 
@@ -398,7 +393,6 @@ void game::go() const
 					else
 					{
 						*gameMode = MODE_END;
-						//ChangeGameMode(3);
 					}
 
 
@@ -412,7 +406,7 @@ void game::go() const
 
 			timer->setInit(false);
 
-			//pWind->SetBuffering(false);
+
 		}
 		if (*gameMode == MODE_STOP)
 		{

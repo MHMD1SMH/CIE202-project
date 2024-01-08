@@ -87,7 +87,7 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 {
 	powerDownTypes test = powerDownTypes(rand() % LastDown);
-	switch (ReverseDirection)
+	switch (test)
 	{
 	case NarrowPaddle:
 		arrOfCollectables.push_back(new narrowPaddle(r_uprleft, r_pGame));
@@ -250,6 +250,7 @@ void narrowPaddle::collisionAction()
 {
 	if (c == 0)
 	{
+		this->width = 0;
 		pGame->decreasePaddleWidth();
 		c += 1;
 	}
@@ -275,6 +276,7 @@ void reverseDirection::collisionAction()
 	if (c == 0&&pGame->getPaddle()->getStep()>0)
 	{
 		pGame->reversePaddleDirection();
+		this->width = 0;
 		c += 1;
 	}
 }
@@ -300,6 +302,7 @@ void quickSand::collisionAction()
 {
 	if (c == 0)
 	{
+		this->width = 0;
 		pGame->decreasePaddleSpeed();
 		c += 1;
 	}
@@ -324,7 +327,7 @@ zeroDeath::zeroDeath(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_p
 
 void zeroDeath::collisionAction()
 {
-	pGame->SetScore(-100);
+	pGame->setLive();
 }
 
 bool zeroDeath::ResetAction()

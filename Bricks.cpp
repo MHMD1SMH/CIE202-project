@@ -233,9 +233,7 @@ void constructBrick::collisionAction()
 	pGame->SetScore(1);
 	point newp;
 
-	//grid* pGrid = pGame->getGrid();
-	/*int col = uprLft.x / config.brickWidth;
-	int row = (uprLft.y - config.toolBarHeight) / config.brickHeight ;*/
+	
 	int col = rand() % 30;
 	int row = rand() % 10;
 	pWind->SetPen(LAVENDER);
@@ -247,42 +245,6 @@ void constructBrick::collisionAction()
 		pGame->getGrid()->addBrick(BRK_NRM, newp);
 		config.totalScore += 1;
 	}
-	//pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
-	/*if (!pGame->getMatrix()[row + 1][col] && !(isCollided(this,pGame->getBall()).side == UPPER))
-	{
-		newp.x = uprLft.x;
-		newp.y = uprLft.y + config.brickHeight;
-		pGame->getGrid()->addBrick(BRK_NRM, newp);
-		config.totalScore += 1;
-	}
-
-	else if (!(pGame->getMatrix()[row - 1][col]))
-	{
-		newp.x = uprLft.x;
-		newp.y = uprLft.y - config.brickHeight;
-		pGame->getGrid()->addBrick(BRK_NRM, newp);
-		config.totalScore += 1;
-
-	}
-
-
-	else if (!pGame->getMatrix()[row][col + 1] && !(ans.side == RIGHT))
-	{
-		newp.x = uprLft.x + config.brickWidth;
-		newp.y = uprLft.y;
-		pGame->getGrid()->addBrick(BRK_NRM, newp);
-		config.totalScore += 1;
-	}
-	else if (!pGame->getMatrix()[row][col - 1] && !(ans.side == LEFT))
-	{
-		newp.x = uprLft.x - config.brickWidth;
-		newp.y = uprLft.y;
-		pGame->getGrid()->addBrick(BRK_NRM, newp);
-		config.totalScore += 1;
-
-	}*/
-	cout << ans.side << endl;
-
 	pGame->getGrid()->draw();
 	pWind->DrawRectangle(uprLft.x, uprLft.y, uprLft.x + config.brickWidth, uprLft.y + config.brickHeight);
 }
