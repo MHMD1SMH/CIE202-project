@@ -180,7 +180,7 @@ void iconAddBombBrick::onClick()
 		clicked.y = y;
 		grid* pGrid = pGame->getGrid();
 		pGrid->addBrick(BRK_BOM, clicked);
-		config.totalScore += 1;
+		config.totalScore += 4;
 		pGrid->draw();
 		t = pGame->getMouseClick(x, y);
 	}

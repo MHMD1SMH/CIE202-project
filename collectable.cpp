@@ -71,7 +71,7 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 {
 	powerUpTypes test = powerUpTypes(rand() % LastUp);
 
-	switch (3)
+	switch (test)
 	{
 	case FireBall:
 		arrOfCollectables.push_back(new fireBall(r_uprleft, r_pGame));
@@ -86,10 +86,6 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 		break;
 	case Magnet:
 		arrOfCollectables.push_back(new magnet(r_uprleft, r_pGame));
-		//arrOfCollectables.push_back();
-		break;
-	case MultipleBalls:
-		arrOfCollectables.push_back(new multipleBalls(r_uprleft, r_pGame));
 		//arrOfCollectables.push_back();
 		break;
 	default:
@@ -239,21 +235,6 @@ void magnet::collisionAction()
 bool magnet::ResetAction()
 {
 
-	return false;
-}
-
-multipleBalls::multipleBalls(point r_uprleft, game* r_pGame) :collectable(r_uprleft, r_pGame)
-{
-	Color = LIGHTGRAY;
-}
-
-void multipleBalls::collisionAction()
-{
-
-}
-
-bool multipleBalls::ResetAction()
-{
 	return false;
 }
 

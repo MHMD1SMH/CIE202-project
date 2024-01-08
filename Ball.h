@@ -19,6 +19,7 @@ protected:
 	bool isStuck;
 
 public:
+	Ball(point upr, game* p);
 	Ball(point ballUprLeft, int rad, int r_height, game* r_pGame);
 	void draw(color C);
 	void MoveBall();
@@ -35,6 +36,6 @@ public:
 	void Reset();
 	void setStuck(bool Stuck);
 	bool getStuck() const;
-	
+
 
 };
