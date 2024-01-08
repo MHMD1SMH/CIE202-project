@@ -10,7 +10,6 @@ public:
 	point paddlePlace;
 	paddle(int, int, game* );
 	void draw( color C) const;
-	bool windowCollision();
 	void collisionAction();
 	void movePaddle(bool);
 	void increasePaddleSpeed();
