@@ -23,7 +23,7 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 	int paddleAreaHeight = remainingHeight - gridHeight;	//The area dedicated for paddle
 	int paddleStartHeight = 480;
 	int paddleWidth = 150;
-	int paddleHeigth = 20;
+	int paddleHeigth = 15;
 
 	int brickWidth = 60;
 	int brickHeight = 30;

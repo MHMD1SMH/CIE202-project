@@ -239,6 +239,11 @@ void game::setLive()
 	lives->setLive();
 }
 
+brick* game::getBrick(int i, int j)
+{
+	return getGrid()->GetBrick()[i][j];
+}
+
 
 
 
@@ -316,7 +321,7 @@ void game::go() const
 				pWind->FlushKeyQueue();
 
 				getGrid()->drawline();
-				ballGame->draw(LAVENDER);
+				
 				pWind->UpdateBuffer();
 
 				if (score->getScore() == config.totalScore)
@@ -331,12 +336,12 @@ void game::go() const
 
 				}
 
+				collectAbles->moveCollectables(Paddle, pWind);
+				ballGame->draw(LAVENDER);
 				ballGame->MoveBall();
 				ballGame->draw(ballColor);
 
 
-
-				collectAbles->moveCollectables(Paddle, pWind);
 
 				Pause(5);
 				pWind->FlushKeyQueue();

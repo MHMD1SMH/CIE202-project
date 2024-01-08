@@ -74,5 +74,6 @@ public:
 	brick*** getMatrix()const;
 	Time* getTime()const;
 	void setLive();
+	brick* getBrick(int i ,int j);
 
 };

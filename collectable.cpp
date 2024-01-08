@@ -44,11 +44,23 @@ int collectable::getSec()
 	return stoi(initiatesec);
 }
 
-void collectable::draw( color c)
+void collectable::draw(color c)
 {
+
+	int row = (uprLft.y - width - config.toolBarHeight) / config.brickHeight;
+	int col = uprLft.x / config.brickWidth;
+	if (this->uprLft.y > config.toolBarHeight + config.brickHeight && this->uprLft.y < config.toolBarHeight + config.gridHeight - 10)
+	{
+
+		if (this->getC() == 0 && pGame->getGrid()->GetBrick()[row][col])
+		{
+
+			pGame->getBrick(row, col)->draw();
+		}
+	}
 	pGame->getWind()->SetPen(c);
 	pGame->getWind()->SetBrush(c);
-	pGame->getWind()->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
+	pGame->getWind()->DrawCircle(this->uprLft.x, this->uprLft.y + 5, this->width);
 }
 
 int collectable::getC()
@@ -99,7 +111,7 @@ void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 		arrOfCollectables.push_back(new quickSand(r_uprleft, r_pGame));
 		break;
 	case ZeroDeath:
-		arrOfCollectables.push_back(new zeroDeath(r_uprleft,r_pGame));
+		arrOfCollectables.push_back(new zeroDeath(r_uprleft, r_pGame));
 		break;
 	default:
 		break;
@@ -273,7 +285,7 @@ reverseDirection::reverseDirection(point r_uprleft, game* r_pGame) :collectable(
 
 void reverseDirection::collisionAction()
 {
-	if (c == 0&&pGame->getPaddle()->getStep()>0)
+	if (c == 0 && pGame->getPaddle()->getStep() > 0)
 	{
 		pGame->reversePaddleDirection();
 		this->width = 0;
