@@ -17,12 +17,6 @@ void paddle::draw(color C) const {
 	pwind->DrawRectangle(paddlePlace.x, paddlePlace.y, paddlePlace.x + config.paddleWidth, paddlePlace.y + config.paddleHeigth);
 }
 
-bool paddle::windowCollision()
-{
-	if (paddlePlace.x > 0 && (paddlePlace.x + 200) < 1200)
-		return true;
-	else return false;
-}
 
 void paddle::collisionAction()
 {
@@ -31,7 +25,7 @@ void paddle::collisionAction()
 
 void paddle::movePaddle(bool isRight)
 {
-	if (windowCollision()) {
+	if (paddlePlace.x > 0 && (paddlePlace.x + 200) < 1200) {
 		//move as you wish
 		if (isRight){
 		paddlePlace.x += step;
@@ -41,6 +35,17 @@ void paddle::movePaddle(bool isRight)
 			paddlePlace.x -= step;
 	     	uprLft.x = paddlePlace.x;
 			
+		}
+	}
+	else {
+		if (isRight&& (paddlePlace.x + 200) < 1200) {
+			paddlePlace.x += step;
+			uprLft.x = paddlePlace.x;
+		}
+		else if(!isRight&& paddlePlace.x > 0) {
+			paddlePlace.x -= step;
+			uprLft.x = paddlePlace.x;
+
 		}
 	}
 }
@@ -59,7 +64,7 @@ void paddle::increasePaddleWidth()
 
 void paddle::decreasePaddleSpeed()
 {
-	step /= 1.5;
+	step /= 2;
 }
 
 void paddle::decreasePaddleWidth()
@@ -77,6 +82,11 @@ void paddle::reversePaddleDirection()
 point paddle::getuprLeft()
 {
 	return this->uprLft;
+}
+
+int paddle::getStep()
+{
+	return this->step;
 }
 
 void paddle::Reset()

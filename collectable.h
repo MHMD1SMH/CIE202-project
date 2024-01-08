@@ -10,8 +10,7 @@ protected:
 	int c = 0;
 public:
 	collectable(point r_uprleft, game* r_pGame);
-	collectable(point r_uprleft, int r_width, int r_height, game* r_pGame);
-
+	
 	bool checkCollision(collidable* paddle);
 
 	virtual void collisionAction() = 0;
@@ -21,7 +20,7 @@ public:
 	color getColor();
 	int getMin();
 	int getSec();
-	void draw(window* pwind, color c);
+	void draw(color c);
 	int getC();
 };
 
