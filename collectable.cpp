@@ -26,7 +26,7 @@ void collectable::collisionAction()
 bool collectable::moveCollectable()
 {
 
-	draw(pGame->getWind(), LAVENDER);
+	draw(LAVENDER);
 	if (this->uprLft.y + this->width + 3 <= config.windHeight - config.statusBarHeight) {
 		this->uprLft.y += this->height / 2;
 		return true;
@@ -51,11 +51,11 @@ int collectable::getSec()
 	return stoi(initiatesec);
 }
 
-void collectable::draw(window* pWind, color c)
+void collectable::draw( color c)
 {
-	pWind->SetPen(c);
-	pWind->SetBrush(c);
-	pWind->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
+	pGame->getWind()->SetPen(c);
+	pGame->getWind()->SetBrush(c);
+	pGame->getWind()->DrawCircle(this->uprLft.x, this->uprLft.y, this->width);
 }
 
 int collectable::getC()
@@ -77,20 +77,16 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 		arrOfCollectables.push_back(new fireBall(r_uprleft, r_pGame));
 		break;
 	case WindGlide:
-		//arrOfCollectables.push_back();
 		arrOfCollectables.push_back(new windGlide(r_uprleft, r_pGame));
 		break;
 	case WidePaddle:
-		//arrOfCollectables.push_back();
 		arrOfCollectables.push_back(new widePaddle(r_uprleft, r_pGame));
 		break;
 	case Magnet:
 		arrOfCollectables.push_back(new magnet(r_uprleft, r_pGame));
-		//arrOfCollectables.push_back();
 		break;
 	case MultipleBalls:
 		arrOfCollectables.push_back(new multipleBalls(r_uprleft, r_pGame));
-		//arrOfCollectables.push_back();
 		break;
 	default:
 		break;
@@ -101,19 +97,19 @@ void collectables::addUpCollectable(point r_uprleft, game* r_pGame)
 void collectables::addDownCollectable(point r_uprleft, game* r_pGame)
 {
 	powerDownTypes test = powerDownTypes(rand() % LastDown);
-	switch (FireBall)
+	switch (ZeroDeath)
 	{
 	case NarrowPaddle:
-		//arrOfCollectables.push_back();
+		arrOfCollectables.push_back(new narrowPaddle(r_uprleft, r_pGame));
 		break;
 	case ReverseDirection:
-		//arrOfCollectables.push_back();
+		arrOfCollectables.push_back(new reverseDirection(r_uprleft, r_pGame));
 		break;
 	case QuickSand:
-		//arrOfCollectables.push_back();
+		arrOfCollectables.push_back(new quickSand(r_uprleft, r_pGame));
 		break;
 	case ZeroDeath:
-		//arrOfCollectables.push_back();
+		arrOfCollectables.push_back(new zeroDeath(r_uprleft,r_pGame));
 		break;
 	default:
 		break;
@@ -125,7 +121,7 @@ void collectables::moveCollectables(collidable* paddle, window* pWind)
 {
 	for (int i = 0; i < arrOfCollectables.size(); i++) {
 		if (arrOfCollectables[i]->checkCollision(paddle) && arrOfCollectables[i]->getC() == 0) {
-			arrOfCollectables[i]->draw(pWind, LAVENDER);
+			arrOfCollectables[i]->draw(LAVENDER);
 			arrOfCollectables[i]->collisionAction();
 			if (arrOfCollectables[i]->getC() == 0)
 			{
@@ -133,12 +129,12 @@ void collectables::moveCollectables(collidable* paddle, window* pWind)
 			}
 		}
 		else if (!arrOfCollectables[i]->moveCollectable() && arrOfCollectables[i]->getC() == 0) {
-			arrOfCollectables[i]->draw(pWind, LAVENDER);
+			arrOfCollectables[i]->draw(LAVENDER);
 			arrOfCollectables.erase(arrOfCollectables.begin() + i);
 		}
 		else if (arrOfCollectables[i]->getC() == 0)
 		{
-			arrOfCollectables[i]->draw(pWind, arrOfCollectables[i]->getColor());
+			arrOfCollectables[i]->draw(arrOfCollectables[i]->getColor());
 		}
 		else if (arrOfCollectables[i]->ResetAction())
 		{
