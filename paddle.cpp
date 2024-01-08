@@ -64,7 +64,7 @@ void paddle::increasePaddleWidth()
 
 void paddle::decreasePaddleSpeed()
 {
-	step /= 1.5;
+	step /= 2;
 }
 
 void paddle::decreasePaddleWidth()

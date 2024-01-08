@@ -10,8 +10,7 @@ protected:
 	int c = 0;
 public:
 	collectable(point r_uprleft, game* r_pGame);
-	collectable(point r_uprleft, int r_width, int r_height, game* r_pGame);
-
+	
 	bool checkCollision(collidable* paddle);
 
 	virtual void collisionAction() = 0;
